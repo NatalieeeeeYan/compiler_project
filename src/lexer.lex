@@ -62,27 +62,17 @@ int calc(char *s, int len);
 
 " " {col++; }
 "\t" {col+=4; }
-[a-zA-Z]+([a-zA-Z0-9]*) {
+[a-zA-Z_]+([a-zA-Z0-9_]*) {
     int len = strlen(yytext);
-    char* new_text = (char *)malloc( (len + 1) * sizeof(char) ); 
+    char* new_text = (char *)malloc((len + 1) * sizeof(char)); 
     strcpy(new_text, yytext);
     new_text[len] = '\0';
-    yylval.tokenId = A_TokenId(A_Pos(line, col), new_text);
-    col += strlen(yytext); 
-    return ID; 
+    yylval.tokenId = A_TokenId(A_Pos(line, col), new_text); col += strlen(yytext); return ID; 
 }
 
-[1-9][0-9]* {
-    yylval.tokenNum = A_TokenNum(A_Pos(line, col), calc(yytext, yyleng));
-    col+=yyleng;
-    return NUM;
-}
+[1-9][0-9]* { yylval.tokenNum = A_TokenNum(A_Pos(line, col), calc(yytext, yyleng)); col+=yyleng; return NUM; }
 
-0 {
-    yylval.tokenNum = A_TokenNum(A_Pos(line, col), 0);
-    ++col;
-    return NUM;
-}
+0 { yylval.tokenNum = A_TokenNum(A_Pos(line, col), 0); ++col; return NUM; }
 }
 
 <COMMENT1>{
@@ -96,6 +86,10 @@ int calc(char *s, int len);
 "*/" { BEGIN INITIAL; }
 [\n\r] { ++line; col = 0; }
 . { /* ignore comment */ }
+}
+
+. {
+    printf("词法错误: 未知字符: %s 在 %d 行 %d 列\n", yytext, line, col);
 }
 %%
 

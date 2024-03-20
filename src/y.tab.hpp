@@ -43,8 +43,8 @@
      SUB = 259,
      MUL = 260,
      DIV = 261,
-     SEMICOLON = 262,
-     DOT = 263,
+     DOT = 262,
+     SEMICOLON = 263,
      LET = 264,
      COLON = 265,
      COMMA = 266,
@@ -58,10 +58,10 @@
      NOT = 274,
      EQ = 275,
      NE = 276,
-     LT = 277,
-     LE = 278,
-     GT = 279,
-     GE = 280,
+     GT = 277,
+     GE = 278,
+     LT = 279,
+     LE = 280,
      ASSIGN = 281,
      OPENCURLYBRACKET = 282,
      CLOSECURLYBRACKET = 283,
@@ -71,11 +71,11 @@
      ARROW = 287,
      FN = 288,
      RET = 289,
-     IF = 290,
-     ELSE = 291,
-     WHILE = 292,
-     BREAK = 293,
-     CONTINUE = 294
+     CONTINUE = 290,
+     BREAK = 291,
+     IF = 292,
+     ELSE = 293,
+     WHILE = 294
    };
 #endif
 /* Tokens.  */
@@ -83,8 +83,8 @@
 #define SUB 259
 #define MUL 260
 #define DIV 261
-#define SEMICOLON 262
-#define DOT 263
+#define DOT 262
+#define SEMICOLON 263
 #define LET 264
 #define COLON 265
 #define COMMA 266
@@ -98,10 +98,10 @@
 #define NOT 274
 #define EQ 275
 #define NE 276
-#define LT 277
-#define LE 278
-#define GT 279
-#define GE 280
+#define GT 277
+#define GE 278
+#define LT 279
+#define LE 280
 #define ASSIGN 281
 #define OPENCURLYBRACKET 282
 #define CLOSECURLYBRACKET 283
@@ -111,11 +111,11 @@
 #define ARROW 287
 #define FN 288
 #define RET 289
-#define IF 290
-#define ELSE 291
-#define WHILE 292
-#define BREAK 293
-#define CONTINUE 294
+#define CONTINUE 290
+#define BREAK 291
+#define IF 292
+#define ELSE 293
+#define WHILE 294
 
 
 
@@ -151,10 +151,10 @@ typedef union YYSTYPE
   A_fnCall fnCall; 
   A_tokenId tokenId; 
   A_tokenNum tokenNum; 
-  A_codeBlockStmt codeBlockStmt;
   A_codeBlockStmtList codeBlockStmtList; 
+  A_codeBlockStmt codeBlockStmt;
   A_returnStmt returnStmt;
-  A_codeBlockStmtType codeBlockStmtType;
+  A_codeBlockStmtType continueStmt; 
   A_codeBlockStmtType breakStmt; 
   A_callStmt callStmt;
   A_ifStmt ifStmt;

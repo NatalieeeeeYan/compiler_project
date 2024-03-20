@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "TeaplAst.h"
 
-// extern int yydebug = 1; 
+extern int yydebug = 1; 
 
 extern A_pos pos;
 extern A_program root;
@@ -46,10 +46,10 @@ extern int  yywrap();
   A_fnCall fnCall; 
   A_tokenId tokenId; 
   A_tokenNum tokenNum; 
-  A_codeBlockStmt codeBlockStmt;
   A_codeBlockStmtList codeBlockStmtList; 
+  A_codeBlockStmt codeBlockStmt;
   A_returnStmt returnStmt;
-  A_codeBlockStmtType codeBlockStmtType;
+  A_codeBlockStmtType continueStmt; 
   A_codeBlockStmtType breakStmt; 
   A_callStmt callStmt;
   A_ifStmt ifStmt;
@@ -60,8 +60,8 @@ extern int  yywrap();
 %token <pos> SUB
 %token <pos> MUL
 %token <pos> DIV
-%token <pos> SEMICOLON      // ;
 %token <pos> DOT            // .
+%token <pos> SEMICOLON      // ;
 %token <pos> LET            // let, for variable definition
 %token <pos> COLON          // :
 %token <pos> COMMA          // ,
@@ -75,10 +75,10 @@ extern int  yywrap();
 %token <pos> NOT
 %token <pos> EQ
 %token <pos> NE
-%token <pos> LT
-%token <pos> LE
 %token <pos> GT
 %token <pos> GE
+%token <pos> LT
+%token <pos> LE
 %token <pos> ASSIGN
 %token <pos> OPENCURLYBRACKET  // {
 %token <pos> CLOSECURLYBRACKET // }
@@ -88,11 +88,13 @@ extern int  yywrap();
 %token <pos> ARROW            // ->
 %token <pos> FN
 %token <pos> RET
+%token <pos> CONTINUE
+%token <pos> BREAK
 %token <pos> IF
 %token <pos> ELSE
 %token <pos> WHILE
-%token <pos> BREAK
-%token <pos> CONTINUE
+
+
 
 %type <program> Program
 %type <arithExpr> ArithExpr
@@ -124,6 +126,12 @@ extern int  yywrap();
 %type <whileStmt> WhileStmt
 
 %start Program
+
+%left ADD SUB
+%left MUL DIV
+%left AND
+%left OR
+// %left UMINUS
 
 %%                   /* beginning of rules section */
 
@@ -199,7 +207,6 @@ VarDecl: ID
 ;
 
 
-
 // type := nativeType | structType
 // nativeType := int
 // structType := id
@@ -273,19 +280,19 @@ RightValList: RightVal
 
 ArithExpr: ArithExpr ADD ArithExpr
 {
-  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_add, $1, $3));
+  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_add, $1, $3)); 
 }
 | ArithExpr SUB ArithExpr
 {
-  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_sub, $1, $3));
+  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_sub, $1, $3)); 
 }
 | ArithExpr MUL ArithExpr
 {
-  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_mul, $1, $3));
+  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_mul, $1, $3)); 
 }
 | ArithExpr DIV ArithExpr
 {
-  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_div, $1, $3));
+  $$ = A_ArithBiOp_Expr($1->pos, A_ArithBiOpExpr($1->pos, A_div, $1, $3)); 
 }
 | ExprUnit
 {
@@ -293,7 +300,7 @@ ArithExpr: ArithExpr ADD ArithExpr
 }
 ;
 
-// ExprUnit := num | id | < ( > ArithExpr < ) > | fnCall | id | < [ > id | num < ] > | id < . > id | ArithUOp ExprUnit
+// ExprUnit := num | id | < ( > ArithExpr < ) > | fnCall | LeftVal | < [ > id | num < ] > | RightVal < . > id | ArithUOp ExprUnit
 ExprUnit: NUM
 {
   $$ = A_NumExprUnit($1->pos, $1->num); 
@@ -304,7 +311,7 @@ ExprUnit: NUM
 }
 | LPa ArithExpr RPa
 {
-  $$ =A_ArithExprUnit($1, $2); 
+  $$ = A_ArithExprUnit($2->pos, $2); 
 }
 | FnCall 
 {
@@ -329,8 +336,6 @@ ExprUnit: NUM
 ; 
 
 // BoolExpr := BoolExpr BoolBiOp BoolUnit | BoolUnit
-// BoolUnit := exprUnit comOp ExprUnit | < ( > BoolExpr < ) > | BoolUop BoolUnit
-
 BoolExpr : BoolExpr AND BoolExpr 
 {
   $$ = A_BoolBiOp_Expr($1->pos, A_BoolBiOpExpr($1->pos, A_and, $1, $3)); 
@@ -345,6 +350,7 @@ BoolExpr : BoolExpr AND BoolExpr
 }
 ; 
 
+// BoolUnit := exprUnit comOp ExprUnit | < ( > BoolExpr < ) > | BoolUop BoolUnit
 BoolUnit : ExprUnit GT ExprUnit 
 {
   $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_gt, $1, $3)); 
@@ -379,12 +385,15 @@ BoolUnit : ExprUnit GT ExprUnit
 }
 ; 
 
+
+// Assignment := LeftVal < = > RightVal < ; >
 AssignStmt: LeftVal ASSIGN RightVal SEMICOLON 
 {
   $$ = A_AssignStmt($1->pos, $1, $3); 
 }
 ; 
 
+// LeftVal := id | id < [ > id | num | < ] > | id < . > id
 LeftVal: ID
 {
   $$ = A_IdExprLVal($1->pos, $1->id); 
@@ -403,28 +412,29 @@ LeftVal: ID
 }
 ; 
 
+// FnCall := id < ( > RightVal ( < , > RightVal) * | e < ) >
 FnCall: ID LPa RightValList RPa
 {
   $$ = A_FnCall($1->pos, $1->id, $3); 
 }
-| ID LPa RPa
-{
-  $$ = A_FnCall($1->pos, $1->id, NULL); 
-}
 ; 
 
+// StructDef := < struct > id < { > (VarDecl) (< , > VarDecl)* < } >
 StructDef: STRUCT ID OPENCURLYBRACKET VarDeclList CLOSECURLYBRACKET
 {
   $$ = A_StructDef($2->pos, $2->id, $4); 
 }
 ; 
 
+// FnDeclStmt := FnDecl < ; >
 FnDeclStmt: FnDecl SEMICOLON
 {
   $$ = A_FnDeclStmt($1->pos, $1); 
 }
 ; 
 
+// FnDecl := < fn > id < ( > ParamDecl < ) > 
+//         | < fn > id < ( > ParamDecl < ) > < -> > Type
 FnDecl: FN ID LPa ParamDecl RPa
 {
   $$ = A_FnDecl($2->pos, $2->id, $4, NULL); 
@@ -435,18 +445,21 @@ FnDecl: FN ID LPa ParamDecl RPa
 }
 ; 
 
+// ParamDecl := VarDecl (< , > VarDecl)* | e
 ParamDecl: VarDeclList
 {
   $$ = A_ParamDecl($1); 
 }
 ; 
 
+// FnDef := FnDecl CodeBlock
 FnDef: FnDecl OPENCURLYBRACKET CodeBlockStmtList CLOSECURLYBRACKET
 {
   $$ = A_FnDef($1->pos, $1, $3);
 }
 ; 
 
+// CodeBlock := < { > (VarDeclStmt | Assignment | CallStmt | IfStmt | WhileStmt | ReturnStmt | CONTINUE | BREAK | < ; >)* < } >
 CodeBlockStmtList: CodeBlockStmt
 {
   $$ = A_CodeBlockStmtList($1, NULL);
@@ -454,10 +467,6 @@ CodeBlockStmtList: CodeBlockStmt
 | CodeBlockStmt CodeBlockStmtList
 {
   $$ =  A_CodeBlockStmtList($1, $2); 
-}
-|
-{
-  $$ = NULL; 
 }
 ; 
 
@@ -499,19 +508,21 @@ CodeBlockStmt: VarDeclStmt
 }
 ; 
 
-
+// ReturnStmt := < ret > RightVal < ; >
 ReturnStmt: RET RightVal SEMICOLON
 {
   $$ = A_ReturnStmt($1, $2); 
 }
 ; 
 
+// CallStmt := FnCal < ; >
 CallStmt: FnCall SEMICOLON
 {
   $$ = A_CallStmt($1->pos, $1); 
 }
 ; 
 
+// IfStmt := < if > < ( > BoolExpr < ) > CodeBlock ( < else > CodeBlock | e )
 IfStmt: IF LPa BoolExpr RPa OPENCURLYBRACKET CodeBlockStmtList CLOSECURLYBRACKET ELSE OPENCURLYBRACKET CodeBlockStmtList CLOSECURLYBRACKET
 {
   $$ = A_IfStmt($1, $3, $6, $10); 
@@ -522,6 +533,7 @@ IfStmt: IF LPa BoolExpr RPa OPENCURLYBRACKET CodeBlockStmtList CLOSECURLYBRACKET
 }
 ; 
 
+// WhileStmt := < while > < ( > BoolExpr < ) > CodeBlock
 WhileStmt: WHILE LPa BoolExpr RPa OPENCURLYBRACKET CodeBlockStmtList CLOSECURLYBRACKET
 {
   $$ = A_WhileStmt($1, $3, $6); 

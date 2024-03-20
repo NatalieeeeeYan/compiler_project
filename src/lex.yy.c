@@ -1,6 +1,5 @@
-#line 1 "lex.yy.cpp"
 
-#line 3 "lex.yy.cpp"
+#line 2 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -388,7 +387,7 @@ static const YY_CHAR yy_ec[256] =
        21,   22,    1,    1,   23,   23,   23,   23,   23,   23,
        23,   23,   23,   23,   23,   23,   23,   23,   23,   23,
        23,   23,   23,   23,   23,   23,   23,   23,   23,   23,
-       24,    1,   25,    1,   23,    1,   26,   27,   28,   23,
+       24,    1,   25,    1,    1,    1,   26,   27,   28,   23,
 
        29,   30,   23,   31,   32,   23,   33,   34,   23,   35,
        36,   23,   23,   37,   38,   39,   40,   23,   41,   23,
@@ -533,9 +532,9 @@ extern char* id;
 extern int num; 
 int c;
 int calc(char *s, int len);
-#line 536 "lex.yy.cpp"
+#line 535 "lex.yy.c"
 
-#line 538 "lex.yy.cpp"
+#line 537 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT1 1
@@ -757,7 +756,7 @@ YY_DECL
 #line 15 "lexer.lex"
 
 
-#line 760 "lex.yy.cpp"
+#line 759 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1074,7 +1073,7 @@ case 49:
 YY_RULE_SETUP
 #line 91 "lexer.lex"
 {
-    printf("词法错误: 未知字符: %s 在 %d 行 %d 列\n", yytext, line, col);
+    printf("Illegal input \" %c\" \n", yytext[0]); 
 }
 	YY_BREAK
 case 50:
@@ -1082,7 +1081,7 @@ YY_RULE_SETUP
 #line 94 "lexer.lex"
 ECHO;
 	YY_BREAK
-#line 1085 "lex.yy.cpp"
+#line 1084 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT1):
 case YY_STATE_EOF(COMMENT2):
