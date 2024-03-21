@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "TeaplAst.h"
 
-extern int yydebug = 1; 
+// extern int yydebug = 1; 
 
 extern A_pos pos;
 extern A_program root;
@@ -54,6 +54,9 @@ extern int  yywrap();
   A_callStmt callStmt;
   A_ifStmt ifStmt;
   A_whileStmt whileStmt;
+  A_memberExpr memberExpr;
+  A_arrayExpr arrayExpr; 
+  A_indexExpr indexExpr; 
 }
 
 %token <pos> ADD
@@ -94,8 +97,6 @@ extern int  yywrap();
 %token <pos> ELSE
 %token <pos> WHILE
 
-
-
 %type <program> Program
 %type <arithExpr> ArithExpr
 %type <programElementList> ProgramElementList
@@ -124,6 +125,9 @@ extern int  yywrap();
 %type <callStmt> CallStmt
 %type <ifStmt> IfStmt
 %type <whileStmt> WhileStmt
+%type <memberExpr> MemberExpr
+%type <arrayExpr> ArrayExpr
+%type <indexExpr> IndexExpr
 
 %start Program
 
@@ -192,7 +196,7 @@ VarDecl: ID
 {
   $$ = A_VarDecl_Scalar($1->pos, A_VarDeclScalar($1->pos, $1->id, NULL));
 }
-| ID COLON Type 
+| ID COLON Type
 {
   $$ = A_VarDecl_Scalar($1->pos, A_VarDeclScalar($1->pos, $1->id, $3));
 }
@@ -317,17 +321,13 @@ ExprUnit: NUM
 {
   $$ = A_CallExprUnit($1->pos, $1); 
 }
-| ID OPENBRACKET ID CLOSEBRACKET
+| ArrayExpr
 {
-  $$ = A_ArrayExprUnit($1->pos, A_ArrayExpr($1->pos, A_IdExprLVal($1->pos, $1->id), A_IdIndexExpr($3->pos, $3->id))); 
+    $$ = A_ArrayExprUnit($1->pos, $1);
 }
-| ID OPENBRACKET NUM CLOSEBRACKET
+| MemberExpr
 {
-  $$ = A_ArrayExprUnit($1->pos, A_ArrayExpr($1->pos, A_IdExprLVal($1->pos, $1->id), A_NumIndexExpr($3->pos, $3->num))); 
-}
-| ID DOT ID
-{
-  $$ = A_MemberExprUnit($1->pos, A_MemberExpr($1->pos, A_IdExprLVal($1->pos, $1->id), $3->id)); 
+    $$ = A_MemberExprUnit($1->pos, $1);
 }
 | SUB ExprUnit 
 {
@@ -398,17 +398,13 @@ LeftVal: ID
 {
   $$ = A_IdExprLVal($1->pos, $1->id); 
 }
-| ID OPENBRACKET NUM CLOSEBRACKET
+| ArrayExpr
 {
-  $$ = A_ArrExprLVal($1->pos, A_ArrayExpr($1->pos, A_IdExprLVal($1->pos, $1->id), A_NumIndexExpr($3->pos, $3->num))); 
+  $$ = A_ArrExprLVal($1->pos, $1);
 }
-| ID OPENBRACKET ID CLOSEBRACKET
+| MemberExpr
 {
-  $$ = A_ArrExprLVal($1->pos, A_ArrayExpr($1->pos, A_IdExprLVal($1->pos, $1->id), A_IdIndexExpr($3->pos, $3->id)));
-}
-| ID DOT ID
-{
-  $$ = A_MemberExprLVal($1->pos, A_MemberExpr($1->pos, A_IdExprLVal($1->pos, $1->id), $3->id)); 
+  $$ = A_MemberExprLVal($1->pos, $1);
 }
 ; 
 
@@ -513,6 +509,10 @@ ReturnStmt: RET RightVal SEMICOLON
 {
   $$ = A_ReturnStmt($1, $2); 
 }
+| RET SEMICOLON
+{
+  $$ = A_ReturnStmt($1, NULL);
+}
 ; 
 
 // CallStmt := FnCal < ; >
@@ -540,14 +540,43 @@ WhileStmt: WHILE LPa BoolExpr RPa OPENCURLYBRACKET CodeBlockStmtList CLOSECURLYB
 }
 ; 
 
+MemberExpr: ID DOT ID
+{
+  $$ = A_MemberExpr($1->pos, A_IdExprLVal($1->pos, $1->id), $3->id); 
+}
+| ArrayExpr DOT ID
+{
+  $$ = A_MemberExpr($1->pos, A_ArrExprLVal($1->pos, $1), $3->id);
+}
+| MemberExpr DOT ID
+{
+  $$ = A_MemberExpr($1->pos, A_MemberExprLVal($1->pos, $1), $3->id);
+}
+;
 
+
+ArrayExpr: LeftVal OPENBRACKET IndexExpr CLOSEBRACKET
+{
+  $$ = A_ArrayExpr($1->pos, $1, $3);
+}
+;
+
+IndexExpr: NUM
+{
+    $$ = A_NumIndexExpr($1->pos, $1->num);
+}
+| ID
+{
+    $$ = A_IdIndexExpr($1->pos, $1->id);
+}
+;
 
 %%
 
 extern "C"{
 void yyerror(char * s)
 {
-  fprintf(stderr, "%s\n",s);
+  fprintf(stderr, "语法错误：%s\n",s);
 }
 int yywrap()
 {

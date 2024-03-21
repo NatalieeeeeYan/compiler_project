@@ -159,9 +159,12 @@ typedef union YYSTYPE
   A_callStmt callStmt;
   A_ifStmt ifStmt;
   A_whileStmt whileStmt;
+  A_memberExpr memberExpr;
+  A_arrayExpr arrayExpr; 
+  A_indexExpr indexExpr; 
 }
 /* Line 1529 of yacc.c.  */
-#line 165 "y.tab.hpp"
+#line 168 "y.tab.hpp"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
