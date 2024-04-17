@@ -1,0 +1,6 @@
+.DS_Store
+.history
+.vscode
+
+src/*.o
+!src/y.output
