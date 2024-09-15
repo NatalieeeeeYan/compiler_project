@@ -159,7 +159,6 @@ void check_VarDecl(std::ostream& out, aA_varDeclStmt vd)
         if(vdecl->kind == A_varDeclType::A_varDeclScalarKind){
             name = *vdecl->u.declScalar->id;
             /* fill code here*/
-            check_VarDecl(out, vdecl->u.declScalar);
 
         }else if (vdecl->kind == A_varDeclType::A_varDeclArrayKind){
             name = *vdecl->u.declArray->id;
@@ -167,8 +166,7 @@ void check_VarDecl(std::ostream& out, aA_varDeclStmt vd)
             int array_len = vdecl->u.declArray->len;
             if (array_len <= 0)
                 error_print(out, vd->pos, "The length of the array in variable declaring: \"" + name + "\" is not positive.");
-            
-        }
+            }
     }
     else if (vd->kind == A_varDeclStmtType::A_varDefKind){
         // decl and def
@@ -176,7 +174,7 @@ void check_VarDecl(std::ostream& out, aA_varDeclStmt vd)
         if (vdef->kind == A_varDefType::A_varDefScalarKind){
             name = *vdef->u.defScalar->id;
             /* fill code here, allow omited type */
-            auto rvInfo = ; 
+            auto rvInfo = 
 
         }else if (vdef->kind == A_varDefType::A_varDefArrayKind){
             name = *vdef->u.defArray->id;
