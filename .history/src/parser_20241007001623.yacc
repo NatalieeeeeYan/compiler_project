@@ -493,7 +493,6 @@ CodeBlockStmt: VarDeclStmt
 }
 ;
 
-
 %%
 
 extern "C"{

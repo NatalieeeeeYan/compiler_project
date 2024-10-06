@@ -19,12 +19,12 @@ int calc(const char *s, int len);
 
 <INITIAL>"\t" { col+=4; }
 <INITIAL>[1-9][0-9]* {
-    yylval.tokenNum = A_TokenNum(A_Pos(line, col), calc(yytext, yyleng));
+    yylval.num = A_TokenNum(A_Pos(line, col), calc(yytext, yyleng));
     col+=yyleng;
     return NUM;
 }
 <INITIAL>0 {
-    yylval.tokenNum = A_TokenNum(A_Pos(line, col), 0);
+    yylval.num = A_TokenNum(A_Pos(line, col), 0);
     ++col;
     return NUM;
 }
@@ -77,6 +77,19 @@ int calc(const char *s, int len);
 <INITIAL>";"     {yylval.pos = A_Pos(line, col); col += 1; return SEMICOLON;}
 <INITIAL>.	{ printf("Unknown character!\n"); }
 
+
+%%
+<INITIAL>"\t" { col+=4; }
+<INITIAL>[1-9][0-9]* {
+    yylval.tokenNum = A_TokenNum(A_Pos(line, col), calc(yytext, yyleng));
+    col+=yyleng;
+    return NUM;
+}
+<INITIAL>0 {
+    yylval.tokenNum = A_TokenNum(A_Pos(line, col), 0);
+    ++col;
+    return NUM;
+}
 %%
 
 // This function takes a string of digits and its length as input, and returns the integer value of the string.
