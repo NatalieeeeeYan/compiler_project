@@ -5,11 +5,8 @@
 #include "y.tab.hpp"
 extern int line, col;
 int c;
-int calc(const char *s, int len);
+int calc(char *s, int len);
 %}
-
-// TODO:
-// your lexer
 
 %x COMMENT1
 %x COMMENT2
@@ -18,15 +15,17 @@ int calc(const char *s, int len);
 %%
 
 <INITIAL>"\t" { col+=4; }
+
+
 <INITIAL>[1-9][0-9]* {
     yylval.tokenNum = A_TokenNum(A_Pos(line, col), calc(yytext, yyleng));
     col+=yyleng;
-    return NUM;
+    return UNUM;
 }
 <INITIAL>0 {
     yylval.tokenNum = A_TokenNum(A_Pos(line, col), 0);
     ++col;
-    return NUM;
+    return UNUM;
 }
 
 <INITIAL>"//" {  col += 2; BEGIN(COMMENT1);  }
@@ -47,7 +46,7 @@ int calc(const char *s, int len);
 <INITIAL>"ret" {yylval.pos = A_Pos(line, col); col += 3; return RET;}
 <INITIAL>"break" {yylval.pos = A_Pos(line, col); col += 5; return BREAK;}
 <INITIAL>"continue" {yylval.pos = A_Pos(line, col); col += 8; return CONTINUE;}
-<INITIAL>[a-z_A-Z][a-z_A-Z0-9]*  {yylval.id = A_TokenId(A_Pos(line, col), strdup(yytext)); col += strlen(yytext); return ID;}
+<INITIAL>[a-z_A-Z][a-z_A-Z0-9]*  {yylval.tokenId = A_TokenId(A_Pos(line, col), strdup(yytext)); col += strlen(yytext); return ID;}
 <INITIAL>"("	{yylval.pos = A_Pos(line, col); col += 1; return LPAR;}
 <INITIAL>")"	{yylval.pos = A_Pos(line, col); col += 1; return RPAR;}
 <INITIAL>"[" {yylval.pos = A_Pos(line, col); col += 1; return LBRA;}
@@ -77,12 +76,14 @@ int calc(const char *s, int len);
 <INITIAL>";"     {yylval.pos = A_Pos(line, col); col += 1; return SEMICOLON;}
 <INITIAL>.	{ printf("Unknown character!\n"); }
 
+
 %%
 
-// This function takes a string of digits and its length as input, and returns the integer value of the string.
-int calc(const char *s, int len) {
+int calc(char *s, int len) {
     int ret = 0;
     for(int i = 0; i < len; i++)
         ret = ret * 10 + (s[i] - '0');
     return ret;
 }
+
+

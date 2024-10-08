@@ -31,11 +31,10 @@ extern int  yywrap();
   A_fnDeclStmt fnDeclStmt;
   A_fnDef fnDef;
 
-  A_tokenId id;
-  A_tokenNum num;
   A_fnCall fnCall;
   A_boolExpr boolExpr;
   A_boolUnit boolUnit;
+  A_boolUnit_ boolUnit_; 
   A_assignStmt assignStmt;
   A_leftVal leftVal;
   A_rightVal rightVal;
@@ -43,11 +42,12 @@ extern int  yywrap();
   A_varDecl varDecl;
   A_varDeclList varDeclList;
   A_varDef varDef;
-  A_type type;
   A_fnDecl fnDecl;
   A_paramDecl paramDecl;
   A_codeBlockStmtList codeBlockStmtList;
   A_codeBlockStmt codeBlockStmt;
+  A_whileStmt whileStmt; 
+  A_ifStmt ifStmt; 
 }
 
 %token <pos> ADD
@@ -55,12 +55,11 @@ extern int  yywrap();
 %token <pos> MUL
 %token <pos> DIV
 %token <pos> SEMICOLON // ;
-
 %token <pos> COLON // :
 %token <pos> COMMA // ,
 
-%token <id> ID
-%token <num> NUM
+%token <tokenId> ID
+%token <tokenNum> UNUM
 %token <pos> LPAR // (
 %token <pos> RPAR // )
 %token <pos> LBRA // [
@@ -103,10 +102,11 @@ extern int  yywrap();
 %type <varDeclStmt> VarDeclStmt
 %type <fnDeclStmt> FnDeclStmt
 %type <fnDef> FnDef
-
 %type <fnCall> FnCall
 %type <boolExpr> BoolExpr
 %type <boolUnit> BoolUnit
+%type <boolUnit> BoolUnit_
+%type <tokenNum> NUM
 // %type <assignStmt> AssignStmt
 %type <rightVal> RightVal
 %type <leftVal> LeftVal
@@ -119,6 +119,9 @@ extern int  yywrap();
 %type <codeBlockStmtList> CodeBlockStmtList
 %type <codeBlockStmt> CodeBlockStmt
 %type <type> Type
+%type <whileStmt> WhileStmt
+%type <ifStmt> IfStmt
+%type <assignStmt> AssignStmt
 
 %left SEMICOLON
 %left COMMA
@@ -132,7 +135,7 @@ extern int  yywrap();
 %left LT LE GT GE EQUAL NE
 %left ADD SUB
 %left MUL DIV
-%right NOT NEG
+%right NOT
 %right LBRA
 %left RBRA
 %left DOT
@@ -182,6 +185,15 @@ ProgramElement: VarDeclStmt
 }
 ;
 
+NUM: UNUM
+{
+  $$ = A_TokenNum($1->pos, $1->num);
+}
+| SUB UNUM
+{
+  $$ = A_TokenNum($1, -($2->num));
+}
+;
 
 ArithExpr: ArithExpr ADD ArithExpr
 {
@@ -215,7 +227,7 @@ ExprUnit : NUM
 }
 | LPAR ArithExpr RPAR
 {
-  $$ = A_ArithExprUnit($1, $2);
+  $$ = A_ArithExprUnit($2->pos, $2);
 }
 | FnCall
 {
@@ -233,60 +245,88 @@ ExprUnit : NUM
 {
   $$ = A_MemberExprUnit($1->pos, A_MemberExpr($1->pos, $1, $3->id));
 }
-| SUB ExprUnit
-{
-  $$ = A_ArithUExprUnit($1, A_ArithUExpr($1, A_neg ,$2));
-}
 ;
 
 BoolExpr : BoolExpr AND BoolExpr
 {
- $$ = A_BoolBiOp_Expr($1->pos,A_BoolBiOpExpr($1->pos,A_and,$1,$3));
+ $$ = A_BoolBiOp_Expr($1->pos, A_BoolBiOpExpr($1->pos, A_and, $1, $3));
 }
-| BoolExpr OR  BoolExpr
+| BoolExpr OR BoolExpr
 {
-  $$ = A_BoolBiOp_Expr($1->pos,A_BoolBiOpExpr($1->pos,A_or,$1,$3));
+  $$ = A_BoolBiOp_Expr($1->pos, A_BoolBiOpExpr($1->pos, A_or, $1, $3));
 }
 | BoolUnit
 {
-  $$ = A_BoolExpr($1->pos,$1);  // qiguai
+  $$ = A_BoolExpr($1->pos, $1);
 }
 ;
 
-BoolUnit : ExprUnit GT  ExprUnit 
+BoolUnit: LPAR ExprUnit GT ExprUnit RPAR
 {
-  $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_gt, $1, $3));
+  $$ = A_ComExprUnit($1, A_ComExpr($1, A_gt, $2, $4));
 }
-| ExprUnit LT ExprUnit  
+| LPAR ExprUnit GE ExprUnit RPAR
 {
-  $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_lt, $1, $3));
+  $$ = A_ComExprUnit($1, A_ComExpr($1, A_ge, $2, $4));
 }
-| ExprUnit GE ExprUnit  
+| LPAR ExprUnit LT ExprUnit RPAR
 {
-  $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_ge, $1, $3));
+  $$ = A_ComExprUnit($1, A_ComExpr($1, A_lt, $2, $4));
 }
-| ExprUnit LE ExprUnit 
+| LPAR ExprUnit LE ExprUnit RPAR
 {
-  $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_le, $1, $3));
+  $$ = A_ComExprUnit($1, A_ComExpr($1, A_le, $2, $4));
 }
-| ExprUnit EQUAL ExprUnit  
+| LPAR ExprUnit EQUAL ExprUnit RPAR
 {
-  $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_eq, $1, $3));
+  $$ = A_ComExprUnit($1, A_ComExpr($1, A_eq, $2, $4));
 }
-| ExprUnit NE ExprUnit 
+| LPAR ExprUnit NE ExprUnit RPAR
 {
-  $$ = A_ComExprUnit($1->pos, A_ComExpr($1->pos, A_ne, $1, $3));
+  $$ = A_ComExprUnit($1, A_ComExpr($1, A_ne, $2, $4));
 }
-| LPAR BoolExpr RPAR 
+| LPAR BoolExpr RPAR
 {
   $$ = A_BoolExprUnit($1, $2);
 }
-| NOT BoolUnit 
+| NOT BoolUnit
 {
   $$ = A_BoolUOpExprUnit($1, A_BoolUOpExpr($1, A_not, $2));
-}
-;
+};
 
+BoolUnit_: LPAR ExprUnit GT ExprUnit RPAR
+{
+  $$ = A_ComExprUnit($1, A_ComExpr($2->pos, A_gt, $2, $4));
+}
+| LPAR ExprUnit LT ExprUnit RPAR
+{
+  $$ = A_ComExprUnit($1, A_ComExpr($2->pos, A_lt, $2, $4));
+}
+| LPAR ExprUnit GE ExprUnit RPAR
+{
+  $$ = A_ComExprUnit($1, A_ComExpr($2->pos, A_ge, $2, $4));
+}
+| LPAR ExprUnit LE ExprUnit RPAR
+{
+  $$ = A_ComExprUnit($1, A_ComExpr($2->pos, A_le, $2, $4));
+}
+| LPAR ExprUnit EQUAL ExprUnit RPAR
+{
+  $$ = A_ComExprUnit($1, A_ComExpr($2->pos, A_eq, $2, $4));
+}
+| LPAR ExprUnit NE ExprUnit RPAR
+{
+  $$ = A_ComExprUnit($1, A_ComExpr($2->pos, A_ne, $2, $4));
+}
+| LPAR BoolExpr RPAR
+{
+  $$ = A_BoolExprUnit($2->pos, $2);
+}
+| LPAR NOT BoolUnit RPAR
+{
+  $$ = A_BoolUOpExprUnit($1, A_BoolUOpExpr($3->pos, A_not, $3));
+} 
+;
 
 LeftVal : ID
 {
@@ -310,19 +350,23 @@ RightVal : ArithExpr
 {
   $$ = A_ArithExprRVal($1->pos, $1);
 }
-| BoolExpr
-{
-  $$ = A_BoolExprRVal($1->pos, $1);
-}
+// | BoolExpr
+// {
+//   $$ = A_BoolExprRVal($1->pos, $1);
+// }
+// | ExprUnit
+// {
+//   $$ = A_ArithExprRVal($1->pos, A_ExprUnit($1->pos, $1));
+// }
 ;
 
-RightValList:RightVal COMMA RightValList
+RightValList: RightVal COMMA RightValList
 {
-  $$=A_RightValList($1, $3);
+  $$ = A_RightValList($1, $3);
 }
-|RightVal
+| RightVal
 {
-  $$=A_RightValList($1, nullptr);
+  $$ = A_RightValList($1, nullptr);
 }
 ;
 
@@ -338,11 +382,11 @@ FnCall : ID LPAR RightValList RPAR
 
 VarDeclStmt: LET VarDecl SEMICOLON
 {
-  $$ = A_VarDeclStmt($1,$2);
+  $$ = A_VarDeclStmt($1, $2);
 }
 | LET VarDef SEMICOLON
 {
-  $$ = A_VarDefStmt($1,$2);
+  $$ = A_VarDefStmt($1, $2);
 }
 ;
 
@@ -385,7 +429,7 @@ Type : INT
 {
   $$ = A_NativeType($1, A_intTypeKind);
 }
-|ID
+| ID
 {
   $$ = A_StructType($1->pos, $1->id);
 }
@@ -410,7 +454,6 @@ ParamDecl : VarDeclList
   $$ = A_ParamDecl(nullptr);
 }
 ;
-
 
 StructDef: STRUCT ID LCUR VarDeclList RCUR
 {
@@ -448,31 +491,31 @@ CodeBlockStmtList : CodeBlockStmt CodeBlockStmtList
 {
   $$ = A_CodeBlockStmtList($1, nullptr);
 }
+| 
+{
+  $$ = nullptr;
+}
 ;
 
 CodeBlockStmt: VarDeclStmt
 {
   $$ = A_BlockVarDeclStmt($1->pos, $1);
 }
-| LeftVal ASSIGN RightVal SEMICOLON 
+| AssignStmt
 {
-  $$ = A_BlockAssignStmt($1->pos, A_AssignStmt($1->pos, $1, $3));
+  $$ = A_BlockAssignStmt($1->pos, $1);
 }
 | FnCall SEMICOLON
 {
   $$ = A_BlockCallStmt($1->pos, A_CallStmt($1->pos, $1));
 }
-| IF LPAR BoolExpr RPAR LCUR CodeBlockStmtList RCUR ELSE LCUR CodeBlockStmtList RCUR
+| IfStmt
 {
-  $$ = A_BlockIfStmt($1, A_IfStmt($1, $3, $6, $10));
+  $$ = A_BlockIfStmt($1->pos, $1); 
 }
-| IF LPAR BoolExpr RPAR LCUR CodeBlockStmtList RCUR
+| WhileStmt
 {
-  $$ = A_BlockIfStmt($1, A_IfStmt($1, $3, $6, NULL));
-}
-| WHILE LPAR BoolExpr RPAR LCUR CodeBlockStmtList RCUR 
-{
-  $$ = A_BlockWhileStmt($1, A_WhileStmt($1, $3, $6));
+  $$ = A_BlockWhileStmt($1->pos, $1);
 }
 | RET RightVal SEMICOLON
 {
@@ -496,7 +539,27 @@ CodeBlockStmt: VarDeclStmt
 }
 ;
 
+WhileStmt: WHILE BoolUnit_ LCUR CodeBlockStmtList RCUR
+{
+  $$ = A_WhileStmt($1, $2, $4);
+}
+;
 
+IfStmt: IF BoolUnit_ LCUR CodeBlockStmtList RCUR
+{
+  $$ = A_IfStmt($1, $2, $4, nullptr);
+}
+| IF BoolUnit_ LCUR CodeBlockStmtList RCUR ELSE LCUR CodeBlockStmtList RCUR
+{
+  $$ = A_IfStmt($1, $2, $4, $8);
+}
+;
+
+AssignStmt: LeftVal ASSIGN RightVal SEMICOLON
+{
+  $$ = A_AssignStmt($1->pos, $1, $3);
+}
+;
 %%
 
 extern "C"{

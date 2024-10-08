@@ -18,6 +18,9 @@ extern int  yywrap();
 
 %union {
   A_pos pos;
+  A_tokenId tokenId;
+  A_tokenNum tokenNum;
+  A_type type;
   A_program program;
   A_programElementList programElementList;
   A_programElement programElement;
@@ -27,24 +30,6 @@ extern int  yywrap();
   A_varDeclStmt varDeclStmt;
   A_fnDeclStmt fnDeclStmt;
   A_fnDef fnDef;
-
-  A_tokenId id;
-  A_tokenNum num;
-  A_fnCall fnCall;
-  A_boolExpr boolExpr;
-  A_boolUnit boolUnit;
-  A_assignStmt assignStmt;
-  A_leftVal leftVal;
-  A_rightVal rightVal;
-  A_rightValList rightValList;
-  A_varDecl varDecl;
-  A_varDeclList varDeclList;
-  A_varDef varDef;
-  A_type type;
-  A_fnDecl fnDecl;
-  A_paramDecl paramDecl;
-  A_codeBlockStmtList codeBlockStmtList;
-  A_codeBlockStmt codeBlockStmt;
 }
 
 %token <pos> ADD
