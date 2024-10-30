@@ -50,7 +50,8 @@ struct A_pos_ {
 
 typedef enum {
     A_nativeTypeKind,
-    A_structTypeKind
+    A_structTypeKind, 
+    A_unknownTypeKind
 } A_dataType;
 
 typedef enum {
@@ -79,7 +80,7 @@ struct A_fnCall_ {
 
 typedef enum {
     A_numIndexKind,
-    A_idIndexKind
+    A_idIndexKind, 
 } A_indexExprKind;
 
 // [id|num]
