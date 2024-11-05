@@ -1,10 +1,13 @@
-; ModuleID = 'sylib.c'
-source_filename = "sylib.c"
+; ModuleID = 'llvm-link'
+source_filename = "llvm-link"
 target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128-Fn32"
 target triple = "arm64-apple-macosx13.3.0"
 
 %struct.timeval = type { i64, i32 }
 
+@N = global i32 0
+@newline = global i32 0
+@llvm.global_ctors = appending global [2 x { i32, ptr, ptr }] [{ i32, ptr, ptr } { i32 65535, ptr @before_main, ptr null }, { i32, ptr, ptr } { i32 65535, ptr @__GLOBAL_init_65535, ptr null }]
 @.str = private unnamed_addr constant [3 x i8] c"%d\00", align 1
 @.str.1 = private unnamed_addr constant [3 x i8] c"%c\00", align 1
 @.str.2 = private unnamed_addr constant [4 x i8] c"%d:\00", align 1
@@ -23,83 +26,92 @@ target triple = "arm64-apple-macosx13.3.0"
 @_sysy_start = global %struct.timeval zeroinitializer, align 8
 @_sysy_end = global %struct.timeval zeroinitializer, align 8
 @__dso_handle = external hidden global i8
-@llvm.global_ctors = appending global [2 x { i32, ptr, ptr }] [{ i32, ptr, ptr } { i32 65535, ptr @before_main, ptr null }, { i32, ptr, ptr } { i32 65535, ptr @__GLOBAL_init_65535, ptr null }]
 
-; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
-define i32 @getint() #0 {
-  %1 = alloca i32, align 4
-  %2 = call i32 (ptr, ...) @scanf(ptr noundef @.str, ptr noundef %1)
-  %3 = load i32, ptr %1, align 4
-  ret i32 %3
+define i32 @mod(i32 %r100, i32 %r102) {
+bb1:
+  %r101 = alloca i32, align 4
+  store i32 %r100, ptr %r101, align 4
+  %r103 = alloca i32, align 4
+  store i32 %r102, ptr %r103, align 4
+  %r104 = load i32, ptr %r101, align 4
+  %r105 = load i32, ptr %r101, align 4
+  %r106 = load i32, ptr %r103, align 4
+  %r107 = sdiv i32 %r105, %r106
+  %r108 = load i32, ptr %r103, align 4
+  %r109 = mul i32 %r107, %r108
+  %r110 = sub i32 %r104, %r109
+  ret i32 %r110
 }
 
-declare i32 @scanf(ptr noundef, ...) #1
+define i32 @split(i32 %r111, ptr %r113) {
+bb2:
+  %r112 = alloca i32, align 4
+  store i32 %r111, ptr %r112, align 4
+  %r114 = alloca i32, align 4
+  %r115 = load i32, ptr @N, align 4
+  %r116 = sub i32 %r115, 1
+  store i32 %r116, ptr %r114, align 4
+  br label %bb3
 
-; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
-define i32 @getch() #0 {
-  %1 = alloca i8, align 1
-  %2 = call i32 (ptr, ...) @scanf(ptr noundef @.str.1, ptr noundef %1)
-  %3 = load i8, ptr %1, align 1
-  %4 = sext i8 %3 to i32
-  ret i32 %4
+bb3:                                              ; preds = %bb4, %bb2
+  %r117 = load i32, ptr %r114, align 4
+  %r118 = icmp ne i32 %r117, -1
+  br i1 %r118, label %bb4, label %bb5
+
+bb4:                                              ; preds = %bb3
+  %r119 = load i32, ptr %r114, align 4
+  %r120 = getelementptr i32, ptr %r113, i32 %r119
+  %r121 = load i32, ptr %r112, align 4
+  %r122 = call i32 @mod(i32 %r121, i32 10)
+  store i32 %r122, ptr %r120, align 4
+  %r123 = load i32, ptr %r112, align 4
+  %r124 = sdiv i32 %r123, 10
+  store i32 %r124, ptr %r112, align 4
+  %r125 = load i32, ptr %r114, align 4
+  %r126 = sub i32 %r125, 1
+  store i32 %r126, ptr %r114, align 4
+  br label %bb3
+
+bb5:                                              ; preds = %bb3
+  ret i32 0
 }
 
-; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
-define void @putint(i32 noundef %0) #0 {
-  %2 = alloca i32, align 4
-  store i32 %0, ptr %2, align 4
-  %3 = load i32, ptr %2, align 4
-  %4 = call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %3)
-  ret void
-}
+define i32 @main() {
+bb6:
+  store i32 4, ptr @N, align 4
+  store i32 10, ptr @newline, align 4
+  %r127 = alloca i32, align 4
+  %r128 = alloca i32, align 4
+  %r129 = alloca [4 x i32], align 4
+  store i32 1478, ptr %r128, align 4
+  %r130 = load i32, ptr %r128, align 4
+  %r131 = call i32 @split(i32 %r130, ptr %r129)
+  store i32 %r131, ptr %r128, align 4
+  %r132 = alloca i32, align 4
+  store i32 0, ptr %r127, align 4
+  br label %bb7
 
-declare i32 @printf(ptr noundef, ...) #1
+bb7:                                              ; preds = %bb8, %bb6
+  %r133 = load i32, ptr %r127, align 4
+  %r134 = icmp slt i32 %r133, 4
+  br i1 %r134, label %bb8, label %bb9
 
-; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
-define void @putch(i32 noundef %0) #0 {
-  %2 = alloca i32, align 4
-  store i32 %0, ptr %2, align 4
-  %3 = load i32, ptr %2, align 4
-  %4 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, i32 noundef %3)
-  ret void
-}
+bb8:                                              ; preds = %bb7
+  %r135 = load i32, ptr %r127, align 4
+  %r136 = getelementptr [4 x i32], ptr %r129, i32 0, i32 %r135
+  %r137 = load i32, ptr %r136, align 4
+  store i32 %r137, ptr %r132, align 4
+  %r138 = load i32, ptr %r132, align 4
+  call void @putint(i32 %r138)
+  %r139 = load i32, ptr @newline, align 4
+  call void @putch(i32 %r139)
+  %r140 = load i32, ptr %r127, align 4
+  %r141 = add i32 %r140, 1
+  store i32 %r141, ptr %r127, align 4
+  br label %bb7
 
-; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
-define void @putarray(i32 noundef %0, ptr noundef %1) #0 {
-  %3 = alloca i32, align 4
-  %4 = alloca ptr, align 8
-  %5 = alloca i32, align 4
-  store i32 %0, ptr %3, align 4
-  store ptr %1, ptr %4, align 8
-  %6 = load i32, ptr %3, align 4
-  %7 = call i32 (ptr, ...) @printf(ptr noundef @.str.2, i32 noundef %6)
-  store i32 0, ptr %5, align 4
-  br label %8
-
-8:                                                ; preds = %19, %2
-  %9 = load i32, ptr %5, align 4
-  %10 = load i32, ptr %3, align 4
-  %11 = icmp slt i32 %9, %10
-  br i1 %11, label %12, label %22
-
-12:                                               ; preds = %8
-  %13 = load ptr, ptr %4, align 8
-  %14 = load i32, ptr %5, align 4
-  %15 = sext i32 %14 to i64
-  %16 = getelementptr inbounds i32, ptr %13, i64 %15
-  %17 = load i32, ptr %16, align 4
-  %18 = call i32 (ptr, ...) @printf(ptr noundef @.str.3, i32 noundef %17)
-  br label %19
-
-19:                                               ; preds = %12
-  %20 = load i32, ptr %5, align 4
-  %21 = add nsw i32 %20, 1
-  store i32 %21, ptr %5, align 4
-  br label %8, !llvm.loop !6
-
-22:                                               ; preds = %8
-  %23 = call i32 (ptr, ...) @printf(ptr noundef @.str.4)
-  ret void
+bb9:                                              ; preds = %bb7
+  ret i32 0
 }
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
@@ -136,10 +148,16 @@ define void @before_main() #0 {
   %19 = load i32, ptr %1, align 4
   %20 = add nsw i32 %19, 1
   store i32 %20, ptr %1, align 4
-  br label %2, !llvm.loop !8
+  br label %2, !llvm.loop !6
 
 21:                                               ; preds = %2
   store i32 1, ptr @_sysy_idx, align 4
+  ret void
+}
+
+; Function Attrs: noinline nounwind ssp uwtable(sync)
+define internal void @__GLOBAL_init_65535() #1 section "__TEXT,__StaticInit,regular,pure_instructions" {
+  %1 = call i32 @__cxa_atexit(ptr @after_main, ptr null, ptr @__dso_handle) #2
   ret void
 }
 
@@ -181,7 +199,7 @@ define void @after_main() #0 {
   %29 = sext i32 %28 to i64
   %30 = getelementptr inbounds [1024 x i32], ptr @_sysy_us, i64 0, i64 %29
   %31 = load i32, ptr %30, align 4
-  %32 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %7, ptr noundef @.str.5, i32 noundef %11, i32 noundef %15, i32 noundef %19, i32 noundef %23, i32 noundef %27, i32 noundef %31) #4
+  %32 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %7, ptr noundef @.str.5, i32 noundef %11, i32 noundef %15, i32 noundef %19, i32 noundef %23, i32 noundef %27, i32 noundef %31) #2
   %33 = load i32, ptr %1, align 4
   %34 = sext i32 %33 to i64
   %35 = getelementptr inbounds [1024 x i32], ptr @_sysy_us, i64 0, i64 %34
@@ -225,7 +243,7 @@ define void @after_main() #0 {
   %64 = load i32, ptr %1, align 4
   %65 = add nsw i32 %64, 1
   store i32 %65, ptr %1, align 4
-  br label %2, !llvm.loop !9
+  br label %2, !llvm.loop !8
 
 66:                                               ; preds = %2
   %67 = load ptr, ptr @__stderrp, align 8
@@ -233,12 +251,92 @@ define void @after_main() #0 {
   %69 = load i32, ptr @_sysy_m, align 4
   %70 = load i32, ptr @_sysy_s, align 4
   %71 = load i32, ptr @_sysy_us, align 4
-  %72 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %67, ptr noundef @.str.6, i32 noundef %68, i32 noundef %69, i32 noundef %70, i32 noundef %71) #4
+  %72 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %67, ptr noundef @.str.6, i32 noundef %68, i32 noundef %69, i32 noundef %70, i32 noundef %71) #2
   ret void
 }
 
 ; Function Attrs: nounwind
-declare i32 @fprintf(ptr noundef, ptr noundef, ...) #2
+declare i32 @__cxa_atexit(ptr, ptr, ptr) #2
+
+; Function Attrs: nounwind
+declare i32 @fprintf(ptr noundef, ptr noundef, ...) #3
+
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
+define i32 @getint() #0 {
+  %1 = alloca i32, align 4
+  %2 = call i32 (ptr, ...) @scanf(ptr noundef @.str, ptr noundef %1)
+  %3 = load i32, ptr %1, align 4
+  ret i32 %3
+}
+
+declare i32 @scanf(ptr noundef, ...) #4
+
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
+define i32 @getch() #0 {
+  %1 = alloca i8, align 1
+  %2 = call i32 (ptr, ...) @scanf(ptr noundef @.str.1, ptr noundef %1)
+  %3 = load i8, ptr %1, align 1
+  %4 = sext i8 %3 to i32
+  ret i32 %4
+}
+
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
+define void @putint(i32 noundef %0) #0 {
+  %2 = alloca i32, align 4
+  store i32 %0, ptr %2, align 4
+  %3 = load i32, ptr %2, align 4
+  %4 = call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %3)
+  ret void
+}
+
+declare i32 @printf(ptr noundef, ...) #4
+
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
+define void @putch(i32 noundef %0) #0 {
+  %2 = alloca i32, align 4
+  store i32 %0, ptr %2, align 4
+  %3 = load i32, ptr %2, align 4
+  %4 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, i32 noundef %3)
+  ret void
+}
+
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
+define void @putarray(i32 noundef %0, ptr noundef %1) #0 {
+  %3 = alloca i32, align 4
+  %4 = alloca ptr, align 8
+  %5 = alloca i32, align 4
+  store i32 %0, ptr %3, align 4
+  store ptr %1, ptr %4, align 8
+  %6 = load i32, ptr %3, align 4
+  %7 = call i32 (ptr, ...) @printf(ptr noundef @.str.2, i32 noundef %6)
+  store i32 0, ptr %5, align 4
+  br label %8
+
+8:                                                ; preds = %19, %2
+  %9 = load i32, ptr %5, align 4
+  %10 = load i32, ptr %3, align 4
+  %11 = icmp slt i32 %9, %10
+  br i1 %11, label %12, label %22
+
+12:                                               ; preds = %8
+  %13 = load ptr, ptr %4, align 8
+  %14 = load i32, ptr %5, align 4
+  %15 = sext i32 %14 to i64
+  %16 = getelementptr inbounds i32, ptr %13, i64 %15
+  %17 = load i32, ptr %16, align 4
+  %18 = call i32 (ptr, ...) @printf(ptr noundef @.str.3, i32 noundef %17)
+  br label %19
+
+19:                                               ; preds = %12
+  %20 = load i32, ptr %5, align 4
+  %21 = add nsw i32 %20, 1
+  store i32 %21, ptr %5, align 4
+  br label %8, !llvm.loop !9
+
+22:                                               ; preds = %8
+  %23 = call i32 (ptr, ...) @printf(ptr noundef @.str.4)
+  ret void
+}
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define void @_sysy_starttime(i32 noundef %0) #0 {
@@ -253,7 +351,7 @@ define void @_sysy_starttime(i32 noundef %0) #0 {
   ret void
 }
 
-declare i32 @gettimeofday(ptr noundef, ptr noundef) #1
+declare i32 @gettimeofday(ptr noundef, ptr noundef) #4
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define void @_sysy_stoptime(i32 noundef %0) #0 {
@@ -340,30 +438,21 @@ define void @_sysy_stoptime(i32 noundef %0) #0 {
   ret void
 }
 
-; Function Attrs: noinline nounwind ssp uwtable(sync)
-define internal void @__GLOBAL_init_65535() #3 section "__TEXT,__StaticInit,regular,pure_instructions" {
-  %1 = call i32 @__cxa_atexit(ptr @after_main, ptr null, ptr @__dso_handle) #4
-  ret void
-}
-
-; Function Attrs: nounwind
-declare i32 @__cxa_atexit(ptr, ptr, ptr) #4
-
 attributes #0 = { noinline nounwind optnone ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #1 = { "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #2 = { nounwind "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #3 = { noinline nounwind ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #4 = { nounwind }
+attributes #1 = { noinline nounwind ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
+attributes #2 = { nounwind }
+attributes #3 = { nounwind "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
+attributes #4 = { "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
 
-!llvm.module.flags = !{!0, !1, !2, !3, !4}
-!llvm.ident = !{!5}
+!llvm.ident = !{!0}
+!llvm.module.flags = !{!1, !2, !3, !4, !5}
 
-!0 = !{i32 2, !"SDK Version", [2 x i32] [i32 13, i32 3]}
-!1 = !{i32 1, !"wchar_size", i32 4}
-!2 = !{i32 8, !"PIC Level", i32 2}
-!3 = !{i32 7, !"uwtable", i32 1}
-!4 = !{i32 7, !"frame-pointer", i32 1}
-!5 = !{!"Homebrew clang version 19.1.3"}
+!0 = !{!"Homebrew clang version 19.1.3"}
+!1 = !{i32 2, !"SDK Version", [2 x i32] [i32 13, i32 3]}
+!2 = !{i32 1, !"wchar_size", i32 4}
+!3 = !{i32 8, !"PIC Level", i32 2}
+!4 = !{i32 7, !"uwtable", i32 1}
+!5 = !{i32 7, !"frame-pointer", i32 1}
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}

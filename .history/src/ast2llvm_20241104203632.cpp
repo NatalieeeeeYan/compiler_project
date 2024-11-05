@@ -560,7 +560,7 @@ Func_local* ast2llvmFunc(aA_fnDef f)
                 // 结构体参数以指针形式传递
                 auto temp = Temp_newtemp_struct_ptr(0, *type->u.structType);
                 args.push_back(temp);           // 添加到参数向量
-                // localVarMap.emplace(id, temp); 
+                //localVarMap.emplace(id, temp);  // 映射参数名称到局部变量
                 localVarStack.back().emplace(id, temp);  // 映射参数名称到局部变量
             } else {
                 // 处理标量参数
@@ -584,13 +584,13 @@ Func_local* ast2llvmFunc(aA_fnDef f)
                 // 结构体数组以指针形式传递
                 auto temp = Temp_newtemp_struct_ptr(-1, *type->u.structType);
                 args.push_back(temp);
-                // localVarMap.emplace(id, temp);
+                //localVarMap.emplace(id, temp);
                 localVarStack.back().emplace(id, temp);
             } else {
                 // 基本类型数组处理
                 auto temp = Temp_newtemp_int_ptr(-1);
                 args.push_back(temp);
-                // localVarMap.emplace(id, temp);
+                //localVarMap.emplace(id, temp);
                 localVarStack.back().emplace(id, temp);
             }
         } else {
@@ -598,13 +598,13 @@ Func_local* ast2llvmFunc(aA_fnDef f)
         }
     }
 
-    aA_codeBlockStmt currentStmt = nullptr;  // 当前处理的语句初始化为 nullptr
+    aA_codeBlockStmt currentStmt = nullptr;  // 当前处理的语句初始化为nullptr
 
     localVarStack.push_back(unordered_map<string, Temp_temp*>());
     // 处理函数体内的所有语句
     for (const auto& stmt : f->stmts) {
         currentStmt = stmt;
-        ast2llvmBlock(stmt);  // 转换语句块为 IR
+        ast2llvmBlock(stmt);  // 转换语句块为IR
 
         // 遇到返回语句时终止处理
         if (stmt->kind == A_codeBlockStmtType::A_returnStmtKind) {
@@ -612,7 +612,7 @@ Func_local* ast2llvmFunc(aA_fnDef f)
         }
     }
     localVarStack.pop_back();
-    // 如果函数返回类型为 void 且没有遇到返回语句，添加返回 null 的 IR 语句
+    // 如果函数返回类型为void且没有遇到返回语句，添加返回 null 的 IR 语句
     if (ret.type == ReturnType::VOID_TYPE &&
         (currentStmt == nullptr ||
          currentStmt->kind != A_codeBlockStmtType::A_returnStmtKind)) {

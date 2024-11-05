@@ -560,7 +560,7 @@ Func_local* ast2llvmFunc(aA_fnDef f)
                 // 结构体参数以指针形式传递
                 auto temp = Temp_newtemp_struct_ptr(0, *type->u.structType);
                 args.push_back(temp);           // 添加到参数向量
-                // localVarMap.emplace(id, temp); 
+                //localVarMap.emplace(id, temp);  // 映射参数名称到局部变量
                 localVarStack.back().emplace(id, temp);  // 映射参数名称到局部变量
             } else {
                 // 处理标量参数
@@ -584,13 +584,13 @@ Func_local* ast2llvmFunc(aA_fnDef f)
                 // 结构体数组以指针形式传递
                 auto temp = Temp_newtemp_struct_ptr(-1, *type->u.structType);
                 args.push_back(temp);
-                // localVarMap.emplace(id, temp);
+                //localVarMap.emplace(id, temp);
                 localVarStack.back().emplace(id, temp);
             } else {
                 // 基本类型数组处理
                 auto temp = Temp_newtemp_int_ptr(-1);
                 args.push_back(temp);
-                // localVarMap.emplace(id, temp);
+                //localVarMap.emplace(id, temp);
                 localVarStack.back().emplace(id, temp);
             }
         } else {

@@ -1,14 +1,12 @@
 #!/bin/bash
-# func_testcase_dir=$(realpath $(dirname "$0")/./tests)
-func_testcase_dir=$(cd "$(dirname "$0")/tests" && pwd)
-# echo "Testcase dir: $func_testcase_dir"
+func_testcase_dir=$(realpath $(dirname "$0")/./tests)
 
 test_single() {
 	# test_file=`realpath --relative-base=$func_testcase_dir $func_testcase_dir/$1.tea`	
 	test_file="$func_testcase_dir/$1.tea"  
 	# test_name=${test_file%.tea}
 	test_name=${1}
-	# echo "Test file: $func_testcase_dir/$test_name.tea"
+	echo "Test file: $func_testcase_dir/$test_name.tea"
 	
 	echo -n $test_name
 	echo ": "
@@ -18,7 +16,6 @@ test_single() {
 		echo fail; exit 0
 	fi
     llvm-link ./tests/$test_name.ll sylib.ll -S -o ./output/$test_name.ll
-	# echo "./tests/$test_name.ll sylib.ll -S -o ./output/$test_name.ll"
 	if [ $? != 0 ]; then
 		echo "fail to link"; exit 0
 	fi
