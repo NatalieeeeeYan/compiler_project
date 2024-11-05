@@ -753,6 +753,7 @@ void check_FnDecl(std::ostream& out, aA_fnDecl fd)
                 for (auto global_var : g_token2Type) {
                     if (global_var.first == name) {
                         vp[i]->pos->line = fd->pos->line;
+                        vp[i]->pos->col -= 2; 
                         error_print(out, vp[i]->pos, "Param name " + name + " conflicts with global variable name.");
                     }
                 }
