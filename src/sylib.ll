@@ -1,7 +1,7 @@
 ; ModuleID = 'sylib.c'
 source_filename = "sylib.c"
-target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128-Fn32"
-target triple = "arm64-apple-macosx13.3.0"
+target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128"
+target triple = "arm64-apple-macosx15.0.0"
 
 %struct.timeval = type { i64, i32 }
 
@@ -95,7 +95,7 @@ define void @putarray(i32 noundef %0, ptr noundef %1) #0 {
   %20 = load i32, ptr %5, align 4
   %21 = add nsw i32 %20, 1
   store i32 %21, ptr %5, align 4
-  br label %8, !llvm.loop !6
+  br label %8, !llvm.loop !5
 
 22:                                               ; preds = %8
   %23 = call i32 (ptr, ...) @printf(ptr noundef @.str.4)
@@ -136,7 +136,7 @@ define void @before_main() #0 {
   %19 = load i32, ptr %1, align 4
   %20 = add nsw i32 %19, 1
   store i32 %20, ptr %1, align 4
-  br label %2, !llvm.loop !8
+  br label %2, !llvm.loop !7
 
 21:                                               ; preds = %2
   store i32 1, ptr @_sysy_idx, align 4
@@ -181,7 +181,7 @@ define void @after_main() #0 {
   %29 = sext i32 %28 to i64
   %30 = getelementptr inbounds [1024 x i32], ptr @_sysy_us, i64 0, i64 %29
   %31 = load i32, ptr %30, align 4
-  %32 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %7, ptr noundef @.str.5, i32 noundef %11, i32 noundef %15, i32 noundef %19, i32 noundef %23, i32 noundef %27, i32 noundef %31) #4
+  %32 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %7, ptr noundef @.str.5, i32 noundef %11, i32 noundef %15, i32 noundef %19, i32 noundef %23, i32 noundef %27, i32 noundef %31)
   %33 = load i32, ptr %1, align 4
   %34 = sext i32 %33 to i64
   %35 = getelementptr inbounds [1024 x i32], ptr @_sysy_us, i64 0, i64 %34
@@ -225,7 +225,7 @@ define void @after_main() #0 {
   %64 = load i32, ptr %1, align 4
   %65 = add nsw i32 %64, 1
   store i32 %65, ptr %1, align 4
-  br label %2, !llvm.loop !9
+  br label %2, !llvm.loop !8
 
 66:                                               ; preds = %2
   %67 = load ptr, ptr @__stderrp, align 8
@@ -233,12 +233,11 @@ define void @after_main() #0 {
   %69 = load i32, ptr @_sysy_m, align 4
   %70 = load i32, ptr @_sysy_s, align 4
   %71 = load i32, ptr @_sysy_us, align 4
-  %72 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %67, ptr noundef @.str.6, i32 noundef %68, i32 noundef %69, i32 noundef %70, i32 noundef %71) #4
+  %72 = call i32 (ptr, ptr, ...) @fprintf(ptr noundef %67, ptr noundef @.str.6, i32 noundef %68, i32 noundef %69, i32 noundef %70, i32 noundef %71)
   ret void
 }
 
-; Function Attrs: nounwind
-declare i32 @fprintf(ptr noundef, ptr noundef, ...) #2
+declare i32 @fprintf(ptr noundef, ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define void @_sysy_starttime(i32 noundef %0) #0 {
@@ -341,30 +340,28 @@ define void @_sysy_stoptime(i32 noundef %0) #0 {
 }
 
 ; Function Attrs: noinline nounwind ssp uwtable(sync)
-define internal void @__GLOBAL_init_65535() #3 section "__TEXT,__StaticInit,regular,pure_instructions" {
-  %1 = call i32 @__cxa_atexit(ptr @after_main, ptr null, ptr @__dso_handle) #4
+define internal void @__GLOBAL_init_65535() #2 section "__TEXT,__StaticInit,regular,pure_instructions" {
+  %1 = call i32 @__cxa_atexit(ptr @after_main, ptr null, ptr @__dso_handle) #3
   ret void
 }
 
 ; Function Attrs: nounwind
-declare i32 @__cxa_atexit(ptr, ptr, ptr) #4
+declare i32 @__cxa_atexit(ptr, ptr, ptr) #3
 
-attributes #0 = { noinline nounwind optnone ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #1 = { "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #2 = { nounwind "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #3 = { noinline nounwind ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+altnzcv,+ccdp,+ccidx,+complxnum,+crc,+dit,+dotprod,+flagm,+fp-armv8,+fp16fml,+fptoint,+fullfp16,+jsconv,+lse,+neon,+pauth,+perfmon,+predres,+ras,+rcpc,+rdm,+sb,+sha2,+sha3,+specrestrict,+ssbs,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8a,+zcm,+zcz" }
-attributes #4 = { nounwind }
+attributes #0 = { noinline nounwind optnone ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+complxnum,+crc,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+jsconv,+lse,+neon,+pauth,+ras,+rcpc,+rdm,+sha2,+sha3,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8.5a,+v8a,+zcm,+zcz" }
+attributes #1 = { "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+complxnum,+crc,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+jsconv,+lse,+neon,+pauth,+ras,+rcpc,+rdm,+sha2,+sha3,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8.5a,+v8a,+zcm,+zcz" }
+attributes #2 = { noinline nounwind ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+complxnum,+crc,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+jsconv,+lse,+neon,+pauth,+ras,+rcpc,+rdm,+sha2,+sha3,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8.5a,+v8a,+zcm,+zcz" }
+attributes #3 = { nounwind }
 
-!llvm.module.flags = !{!0, !1, !2, !3, !4}
-!llvm.ident = !{!5}
+!llvm.module.flags = !{!0, !1, !2, !3}
+!llvm.ident = !{!4}
 
-!0 = !{i32 2, !"SDK Version", [2 x i32] [i32 13, i32 3]}
-!1 = !{i32 1, !"wchar_size", i32 4}
-!2 = !{i32 8, !"PIC Level", i32 2}
-!3 = !{i32 7, !"uwtable", i32 1}
-!4 = !{i32 7, !"frame-pointer", i32 1}
-!5 = !{!"Homebrew clang version 19.1.3"}
-!6 = distinct !{!6, !7}
-!7 = !{!"llvm.loop.mustprogress"}
-!8 = distinct !{!8, !7}
-!9 = distinct !{!9, !7}
+!0 = !{i32 1, !"wchar_size", i32 4}
+!1 = !{i32 8, !"PIC Level", i32 2}
+!2 = !{i32 7, !"uwtable", i32 1}
+!3 = !{i32 7, !"frame-pointer", i32 1}
+!4 = !{!"Homebrew clang version 18.1.8"}
+!5 = distinct !{!5, !6}
+!6 = !{!"llvm.loop.mustprogress"}
+!7 = distinct !{!7, !6}
+!8 = distinct !{!8, !6}

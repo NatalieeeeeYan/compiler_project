@@ -50,7 +50,8 @@ struct A_pos_ {
 
 typedef enum {
     A_nativeTypeKind,
-    A_structTypeKind
+    A_structTypeKind, 
+    A_unknownTypeKind
 } A_dataType;
 
 typedef enum {
