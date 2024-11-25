@@ -1,0 +1,33 @@
+bb42 
+pred  0  
+succ  1  bb43  
+bb43 
+pred  2  bb42  bb52  
+succ  2  bb44  bb45  
+bb44 
+pred  1  bb43  
+succ  1  bb46  
+bb46 
+pred  2  bb44  bb47  
+succ  2  bb49  bb48  
+bb49 
+pred  1  bb46  
+succ  2  bb47  bb48  
+bb47 
+pred  1  bb49  
+succ  1  bb46  
+bb48 
+pred  2  bb46  bb49  
+succ  2  bb50  bb51  
+bb50 
+pred  1  bb48  
+succ  1  bb52  
+bb51 
+pred  1  bb48  
+succ  1  bb52  
+bb52 
+pred  2  bb50  bb51  
+succ  1  bb43  
+bb45 
+pred  1  bb43  
+succ  0  

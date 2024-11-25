@@ -7,35 +7,32 @@ declare void @_sysy_starttime( i32 )
 declare void @_sysy_stoptime( i32 )
 %array2D = type { [5 x i32 ] }
 define i32 @relu_reg( i32 %r100 ) {
-bb25:
-  %r1653 = add i32 0, 0
-  %r1654 = add i32 %r100, 0
-  br label %bb1
-
 bb1:
-  %r103 = icmp sgt i32 %r1654, 127
-  br i1 %r103, label %bb2, label %bb3
+  %r1655 = add i32 0, 0
+  %r1656 = add i32 %r100, 0
+  %r103 = icmp sgt i32 %r1656, 127
+  br i1 %r103, label %bb_if_5_3_true, label %bb_if_5_3_false
 
-bb2:
+bb_if_5_3_true:
   ret i32 127
-bb3:
-  br label %bb4
+bb_if_5_3_false:
+  br label %bb_if_5_3_end
 
-bb4:
-  %r105 = icmp slt i32 %r1654, 0
-  br i1 %r105, label %bb5, label %bb6
+bb_if_5_3_end:
+  %r105 = icmp slt i32 %r1656, 0
+  br i1 %r105, label %bb_if_5_7_true, label %bb_if_5_7_false
 
-bb5:
+bb_if_5_7_true:
   ret i32 0
-bb6:
-  br label %bb7
+bb_if_5_7_false:
+  br label %bb_if_5_7_end
 
-bb7:
-  ret i32 %r1654
+bb_if_5_7_end:
+  ret i32 %r1656
 }
 
 define i32 @model( %array2D* %r107 ) {
-bb8:
+bb2:
   %r108 = getelementptr %array2D, %array2D* %r107, i32 0
   %r109 = getelementptr %array2D, %array2D* %r108, i32 0, i32 0
   %r110 = getelementptr [5 x i32 ], [5 x i32 ]* %r109, i32 0, i32 0
@@ -1556,87 +1553,95 @@ bb8:
   %r1625 = mul i32 %r1624, 46
   %r1626 = add i32 %r1474, %r1625
   %r1627 = icmp sgt i32 %r1626, 0
-  br i1 %r1627, label %bb9, label %bb10
+  br i1 %r1627, label %bb_if_5_20_true, label %bb_if_5_20_false
 
-bb9:
+bb_if_5_20_true:
   ret i32 1
-bb10:
-  br label %bb11
+bb_if_5_20_false:
+  br label %bb_if_5_20_end
 
-bb11:
+bb_if_5_20_end:
   ret i32 0
 }
 
 define i32 @main( ) {
-bb12:
-  %r1655 = add i32 0, 0
-  %r1656 = add i32 0, 0
-  call void @_sysy_starttime(i32 37)
-  %r1657 = add i32 0, 0
-  %r1658 = call i32 @getint()
-  %r1630 = alloca [ 5 x %array2D ]
-  br label %bb13
-
-bb13:
-  %r1659 = phi i32 [ %r1658, %bb12 ], [ %r1662, %bb24 ]
-  %r1632 = icmp sgt i32 %r1659, 0
-  br i1 %r1632, label %bb14, label %bb15
-
-bb14:
+bb3:
   %r1660 = add i32 0, 0
-  br label %bb16
+  %r1661 = add i32 0, 0
+  call void @_sysy_starttime(i32 37)
+  %r1662 = add i32 0, 0
+  %r1629 = call i32 @getint()
+  %r1663 = add i32 %r1629, 0
+  %r1630 = alloca [ 5 x %array2D ]
+  br label %bb_while_5_40_cond
 
-bb16:
-  %r1661 = phi i32 [ %r1660, %bb14 ], [ %r1665, %bb21 ]
-  %r1635 = icmp slt i32 %r1661, 5
-  br i1 %r1635, label %bb17, label %bb18
+bb_while_5_40_cond:
+  %r1664 = phi i32 [ %r1663, %bb3 ], [ %r1674, %bb_if_9_50_end ]
+  %r1665 = phi i32 [ %r1661, %bb3 ], [ %r1668, %bb_if_9_50_end ]
+  %r1666 = phi i32 [ %r1660, %bb3 ], [ %r1669, %bb_if_9_50_end ]
+  %r1632 = icmp sgt i32 %r1664, 0
+  br i1 %r1632, label %bb_while_5_40_whilestms, label %bb_while_5_40_bre
 
-bb17:
-  %r1663 = add i32 0, 0
-  br label %bb19
+bb_while_5_40_whilestms:
+  %r1667 = add i32 0, 0
+  br label %bb_while_9_42_cond
 
-bb19:
-  %r1664 = phi i32 [ %r1663, %bb17 ], [ %r1666, %bb20 ]
-  %r1638 = icmp slt i32 %r1664, 5
-  br i1 %r1638, label %bb20, label %bb21
+bb_while_9_42_cond:
+  %r1668 = phi i32 [ %r1667, %bb_while_5_40_whilestms ], [ %r1673, %bb_while_13_44_bre ]
+  %r1669 = phi i32 [ %r1666, %bb_while_5_40_whilestms ], [ %r1671, %bb_while_13_44_bre ]
+  %r1635 = icmp slt i32 %r1668, 5
+  br i1 %r1635, label %bb_while_9_42_whilestms, label %bb_while_9_42_bre
 
-bb20:
-  %r1639 = call i32 @getint()
-  %r1641 = getelementptr [5 x %array2D ], [5 x %array2D ]* %r1630, i32 0, i32 %r1661
-  %r1642 = getelementptr %array2D, %array2D* %r1641, i32 0, i32 0
-  %r1644 = getelementptr [5 x i32 ], [5 x i32 ]* %r1642, i32 0, i32 %r1664
-  store i32 %r1639, i32* %r1644
-  %r1666 = add i32 %r1664, 1
-  br label %bb19
+bb_while_9_42_whilestms:
+  %r1670 = add i32 0, 0
+  br label %bb_while_13_44_cond
 
-bb21:
-  %r1665 = add i32 %r1661, 1
-  br label %bb16
+bb_while_13_44_cond:
+  %r1671 = phi i32 [ %r1670, %bb_while_9_42_whilestms ], [ %r1672, %bb_while_13_44_whilestms ]
+  %r1638 = icmp slt i32 %r1671, 5
+  br i1 %r1638, label %bb_while_13_44_whilestms, label %bb_while_13_44_bre
 
-bb18:
-  %r1649 = call i32 @model(%array2D* %r1630)
-  %r1650 = icmp ne i32 %r1649, 0
-  br i1 %r1650, label %bb22, label %bb23
+bb_while_13_44_whilestms:
+  %r1640 = getelementptr [5 x %array2D ], [5 x %array2D ]* %r1630, i32 0, i32 %r1668
+  %r1641 = getelementptr %array2D, %array2D* %r1640, i32 0, i32 0
+  %r1643 = getelementptr [5 x i32 ], [5 x i32 ]* %r1641, i32 0, i32 %r1671
+  %r1644 = call i32 @getint()
+  store i32 %r1644, i32* %r1643
+  %r1646 = add i32 %r1671, 1
+  %r1672 = add i32 %r1646, 0
+  br label %bb_while_13_44_cond
 
-bb22:
+bb_while_13_44_bre:
+  %r1648 = add i32 %r1668, 1
+  %r1673 = add i32 %r1648, 0
+  br label %bb_while_9_42_cond
+
+bb_while_9_42_bre:
+  %r1649 = getelementptr [5 x %array2D ], [5 x %array2D ]* %r1630, i32 0, i32 0
+  %r1650 = call i32 @model(%array2D* %r1649)
+  %r1651 = icmp ne i32 %r1650, 0
+  br i1 %r1651, label %bb_if_9_50_true, label %bb_if_9_50_false
+
+bb_if_9_50_true:
   call void @putch(i32 99)
   call void @putch(i32 97)
   call void @putch(i32 116)
   call void @putch(i32 10)
-  br label %bb24
+  br label %bb_if_9_50_end
 
-bb23:
+bb_if_9_50_false:
   call void @putch(i32 100)
   call void @putch(i32 111)
   call void @putch(i32 103)
   call void @putch(i32 10)
-  br label %bb24
+  br label %bb_if_9_50_end
 
-bb24:
-  %r1662 = sub i32 %r1659, 1
-  br label %bb13
+bb_if_9_50_end:
+  %r1653 = sub i32 %r1664, 1
+  %r1674 = add i32 %r1653, 0
+  br label %bb_while_5_40_cond
 
-bb15:
+bb_while_5_40_bre:
   call void @_sysy_stoptime(i32 58)
   ret i32 0
 }

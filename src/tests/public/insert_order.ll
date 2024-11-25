@@ -7,60 +7,62 @@ declare void @_sysy_starttime( i32 )
 declare void @_sysy_stoptime( i32 )
 @N = global i32 0
 define i32 @insert( i32* %r100, i32 %r101 ) {
-bb13:
-  %r158 = add i32 0, 0
-  %r159 = add i32 0, 0
-  %r160 = add i32 0, 0
-  %r161 = add i32 0, 0
-  %r162 = add i32 %r101, 0
-  br label %bb1
-
 bb1:
   %r163 = add i32 0, 0
-  br label %bb2
+  %r164 = add i32 0, 0
+  %r165 = add i32 %r101, 0
+  %r166 = add i32 0, 0
+  %r167 = add i32 0, 0
+  %r168 = add i32 0, 0
+  br label %bb_while_5_8_cond
 
-bb2:
-  %r164 = phi i32 [ %r163, %bb1 ], [ %r169, %bb3 ]
-  %r107 = getelementptr i32, i32* %r100, i32 %r164
+bb_while_5_8_cond:
+  %r169 = phi i32 [ %r168, %bb1 ], [ %r170, %bb_while_5_8_whilestms ]
+  %r107 = getelementptr i32, i32* %r100, i32 %r169
   %r108 = load i32, i32* %r107
-  %r109 = icmp sgt i32 %r162, %r108
-  br i1 %r109, label %bb5, label %bb4
+  %r109 = icmp sgt i32 %r165, %r108
+  br i1 %r109, label %bb22_8_next, label %bb_while_5_8_bre
 
-bb5:
+bb22_8_next:
   %r111 = load i32, i32* @N
-  %r112 = icmp slt i32 %r164, %r111
-  br i1 %r112, label %bb3, label %bb4
+  %r112 = icmp slt i32 %r169, %r111
+  br i1 %r112, label %bb_while_5_8_whilestms, label %bb_while_5_8_bre
 
-bb3:
-  %r169 = add i32 %r164, 1
-  br label %bb2
+bb_while_5_8_whilestms:
+  %r114 = add i32 %r169, 1
+  %r170 = add i32 %r114, 0
+  br label %bb_while_5_8_cond
 
-bb4:
-  %r165 = load i32, i32* @N
-  br label %bb6
+bb_while_5_8_bre:
+  %r115 = load i32, i32* @N
+  %r171 = add i32 %r115, 0
+  br label %bb_while_5_14_cond
 
-bb6:
-  %r166 = phi i32 [ %r165, %bb4 ], [ %r168, %bb7 ]
-  %r118 = icmp sgt i32 %r166, %r164
-  br i1 %r118, label %bb7, label %bb8
+bb_while_5_14_cond:
+  %r172 = phi i32 [ %r171, %bb_while_5_8_bre ], [ %r175, %bb_while_5_14_whilestms ]
+  %r173 = phi i32 [ %r163, %bb_while_5_8_bre ], [ %r174, %bb_while_5_14_whilestms ]
+  %r118 = icmp sgt i32 %r172, %r169
+  br i1 %r118, label %bb_while_5_14_whilestms, label %bb_while_5_14_bre
 
-bb7:
-  %r167 = sub i32 %r166, 1
-  %r123 = getelementptr i32, i32* %r100, i32 %r167
-  %r124 = load i32, i32* %r123
-  %r126 = getelementptr i32, i32* %r100, i32 %r166
-  store i32 %r124, i32* %r126
-  %r129 = getelementptr i32, i32* %r100, i32 %r164
-  store i32 %r162, i32* %r129
-  %r168 = sub i32 %r166, 1
-  br label %bb6
+bb_while_5_14_whilestms:
+  %r121 = sub i32 %r172, 1
+  %r174 = add i32 %r121, 0
+  %r123 = getelementptr i32, i32* %r100, i32 %r172
+  %r125 = getelementptr i32, i32* %r100, i32 %r174
+  %r126 = load i32, i32* %r125
+  store i32 %r126, i32* %r123
+  %r128 = getelementptr i32, i32* %r100, i32 %r169
+  store i32 %r165, i32* %r128
+  %r131 = sub i32 %r172, 1
+  %r175 = add i32 %r131, 0
+  br label %bb_while_5_14_cond
 
-bb8:
+bb_while_5_14_bre:
   ret i32 0
 }
 
 define i32 @main( ) {
-bb9:
+bb2:
   call void @_sysy_starttime(i32 27)
   store i32 10, i32* @N
   %r132 = alloca [ 11 x i32 ]
@@ -84,29 +86,35 @@ bb9:
   store i32 56, i32* %r141
   %r142 = getelementptr [11 x i32 ], [11 x i32 ]* %r132, i32 0, i32 9
   store i32 78, i32* %r142
-  %r170 = add i32 0, 0
-  %r171 = add i32 0, 0
-  %r172 = add i32 0, 0
-  %r173 = call i32 @getint()
-  %r174 = call i32 @insert(i32* %r132, i32 %r173)
-  br label %bb10
+  %r178 = add i32 0, 0
+  %r179 = add i32 0, 0
+  %r180 = add i32 0, 0
+  %r145 = call i32 @getint()
+  %r181 = add i32 %r145, 0
+  %r146 = getelementptr [11 x i32 ], [11 x i32 ]* %r132, i32 0, i32 0
+  %r148 = call i32 @insert(i32* %r146, i32 %r181)
+  %r182 = add i32 %r148, 0
+  br label %bb_while_9_45_cond
 
-bb10:
-  %r175 = phi i32 [ %r172, %bb9 ], [ %r178, %bb11 ]
-  %r149 = load i32, i32* @N
-  %r150 = icmp slt i32 %r175, %r149
-  br i1 %r150, label %bb11, label %bb12
+bb_while_9_45_cond:
+  %r183 = phi i32 [ %r182, %bb2 ], [ %r186, %bb_while_9_45_whilestms ]
+  %r184 = phi i32 [ %r180, %bb2 ], [ %r187, %bb_while_9_45_whilestms ]
+  %r150 = load i32, i32* @N
+  %r151 = icmp slt i32 %r184, %r150
+  br i1 %r151, label %bb_while_9_45_whilestms, label %bb_while_9_45_bre
 
-bb11:
-  %r152 = getelementptr [11 x i32 ], [11 x i32 ]* %r132, i32 0, i32 %r175
-  %r176 = load i32, i32* %r152
-  call void @putint(i32 %r176)
-  %r177 = add i32 10, 0
-  call void @putch(i32 %r177)
-  %r178 = add i32 %r175, 1
-  br label %bb10
+bb_while_9_45_whilestms:
+  %r153 = getelementptr [11 x i32 ], [11 x i32 ]* %r132, i32 0, i32 %r184
+  %r154 = load i32, i32* %r153
+  %r185 = add i32 %r154, 0
+  call void @putint(i32 %r185)
+  %r186 = add i32 10, 0
+  call void @putch(i32 %r186)
+  %r158 = add i32 %r184, 1
+  %r187 = add i32 %r158, 0
+  br label %bb_while_9_45_cond
 
-bb12:
+bb_while_9_45_bre:
   call void @_sysy_stoptime(i32 54)
   ret i32 0
 }

@@ -13,7 +13,7 @@ LLFILES = $(patsubst $(TESTCASE_DIR)/%.tea,$(TESTCASE_DIR)/%.ast,$(TESTCASES))
 run: $(patsubst $(TESTCASE_DIR)/%.tea,$(TESTCASE_DIR)/%.ll,$(TESTCASES))
 
 $(TESTCASE_DIR)/%.ll: $(TESTCASE_DIR)/%.tea compiler
-#	@echo TEST $*
+#   @echo TEST $*
 #	@ulimit -s 65536
 	@./test-functional.sh $*
 	@echo 

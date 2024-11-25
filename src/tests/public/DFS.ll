@@ -14,105 +14,106 @@ declare void @_sysy_stoptime( i32 )
 @vis = global [ 1005 x i32 ] zeroinitializer
 define i32 @quickread( ) {
 bb1:
-  %r227 = add i32 0, 0
-  %r230 = call i32 @getch()
-  %r228 = add i32 0, 0
-  %r231 = add i32 0, 0
-  %r229 = add i32 0, 0
+  %r230 = add i32 0, 0
+  %r101 = call i32 @getch()
+  %r231 = add i32 %r101, 0
   %r232 = add i32 0, 0
-  br label %bb2
+  %r233 = add i32 0, 0
+  %r234 = add i32 0, 0
+  %r235 = add i32 0, 0
+  br label %bb_while_5_5_cond
 
-bb2:
-  %r233 = phi i32 [ %r232, %bb1 ], [ %r235, %bb8 ]
-  %r234 = phi i32 [ %r230, %bb1 ], [ %r236, %bb8 ]
-  %r105 = icmp slt i32 %r234, 48
-  br i1 %r105, label %bb3, label %bb5
+bb_while_5_5_cond:
+  %r236 = phi i32 [ %r231, %bb1 ], [ %r244, %bb_if_9_6_end ]
+  %r237 = phi i32 [ %r235, %bb1 ], [ %r243, %bb_if_9_6_end ]
+  %r105 = icmp slt i32 %r236, 48
+  br i1 %r105, label %bb_while_5_5_whilestms, label %bb26_5_next
 
-bb5:
-  %r107 = icmp sgt i32 %r234, 57
-  br i1 %r107, label %bb3, label %bb4
+bb26_5_next:
+  %r107 = icmp sgt i32 %r236, 57
+  br i1 %r107, label %bb_while_5_5_whilestms, label %bb_while_5_5_bre
 
-bb3:
-  %r109 = icmp eq i32 %r234, 45
-  br i1 %r109, label %bb6, label %bb7
+bb_while_5_5_whilestms:
+  %r109 = icmp eq i32 %r236, 45
+  br i1 %r109, label %bb_if_9_6_true, label %bb_if_9_6_false
 
-bb6:
-  %r237 = add i32 1, 0
-  br label %bb8
+bb_if_9_6_true:
+  %r242 = add i32 1, 0
+  br label %bb_if_9_6_end
 
-bb7:
-  br label %bb8
+bb_if_9_6_false:
+  br label %bb_if_9_6_end
 
-bb8:
-  %r235 = phi i32 [ %r237, %bb6 ], [ %r233, %bb7 ]
-  %r236 = call i32 @getch()
-  br label %bb2
+bb_if_9_6_end:
+  %r243 = phi i32 [ %r242, %bb_if_9_6_true ], [ %r237, %bb_if_9_6_false ]
+  %r110 = call i32 @getch()
+  %r244 = add i32 %r110, 0
+  br label %bb_while_5_5_cond
 
-bb4:
-  br label %bb9
+bb_while_5_5_bre:
+  br label %bb_while_5_11_cond
 
-bb9:
-  %r238 = phi i32 [ %r231, %bb4 ], [ %r240, %bb10 ]
-  %r239 = phi i32 [ %r234, %bb4 ], [ %r241, %bb10 ]
-  %r112 = icmp sge i32 %r239, 48
-  br i1 %r112, label %bb12, label %bb11
+bb_while_5_11_cond:
+  %r238 = phi i32 [ %r236, %bb_while_5_5_bre ], [ %r241, %bb_while_5_11_whilestms ]
+  %r239 = phi i32 [ %r233, %bb_while_5_5_bre ], [ %r240, %bb_while_5_11_whilestms ]
+  %r112 = icmp sge i32 %r238, 48
+  br i1 %r112, label %bb27_11_next, label %bb_while_5_11_bre
 
-bb12:
-  %r114 = icmp sle i32 %r239, 57
-  br i1 %r114, label %bb10, label %bb11
+bb27_11_next:
+  %r114 = icmp sle i32 %r238, 57
+  br i1 %r114, label %bb_while_5_11_whilestms, label %bb_while_5_11_bre
 
-bb10:
-  %r116 = mul i32 %r238, 10
-  %r118 = add i32 %r116, %r239
-  %r240 = sub i32 %r118, 48
-  %r241 = call i32 @getch()
-  br label %bb9
+bb_while_5_11_whilestms:
+  %r116 = mul i32 %r239, 10
+  %r118 = add i32 %r116, %r238
+  %r119 = sub i32 %r118, 48
+  %r240 = add i32 %r119, 0
+  %r120 = call i32 @getch()
+  %r241 = add i32 %r120, 0
+  br label %bb_while_5_11_cond
 
-bb11:
-  %r122 = icmp ne i32 %r233, 0
-  br i1 %r122, label %bb13, label %bb14
+bb_while_5_11_bre:
+  %r122 = icmp ne i32 %r237, 0
+  br i1 %r122, label %bb_if_5_15_true, label %bb_if_5_15_false
 
-bb13:
-  %r124 = sub i32 0, %r238
+bb_if_5_15_true:
+  %r124 = sub i32 0, %r239
   ret i32 %r124
-bb14:
-  ret i32 %r238
+bb_if_5_15_false:
+  ret i32 %r239
 }
 
 define void @addedge( i32 %r126, i32 %r128 ) {
-bb49:
-  %r242 = add i32 0, 0
-  %r244 = add i32 %r126, 0
-  %r243 = add i32 0, 0
-  %r245 = add i32 %r128, 0
-  br label %bb16
-
-bb16:
-  %r131 = load i32, i32* @cnt
-  %r132 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r131
-  store i32 %r245, i32* %r132
-  %r134 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r244
-  %r135 = load i32, i32* %r134
-  %r136 = load i32, i32* @cnt
-  %r137 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r136
-  store i32 %r135, i32* %r137
-  %r138 = load i32, i32* @cnt
-  %r140 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r244
-  store i32 %r138, i32* %r140
+bb2:
+  %r247 = add i32 0, 0
+  %r248 = add i32 %r126, 0
+  %r249 = add i32 0, 0
+  %r250 = add i32 %r128, 0
+  %r130 = load i32, i32* @cnt
+  %r131 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r130
+  store i32 %r250, i32* %r131
+  %r133 = load i32, i32* @cnt
+  %r134 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r133
+  %r136 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r248
+  %r137 = load i32, i32* %r136
+  store i32 %r137, i32* %r134
+  %r139 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r248
+  %r140 = load i32, i32* @cnt
+  store i32 %r140, i32* %r139
   %r141 = load i32, i32* @cnt
   %r142 = add i32 %r141, 1
   store i32 %r142, i32* @cnt
-  %r144 = load i32, i32* @cnt
-  %r145 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r144
-  store i32 %r244, i32* %r145
-  %r147 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r245
-  %r148 = load i32, i32* %r147
-  %r149 = load i32, i32* @cnt
-  %r150 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r149
-  store i32 %r148, i32* %r150
-  %r151 = load i32, i32* @cnt
-  %r153 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r245
-  store i32 %r151, i32* %r153
+  %r143 = load i32, i32* @cnt
+  %r144 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r143
+  store i32 %r248, i32* %r144
+  %r146 = load i32, i32* @cnt
+  %r147 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r146
+  %r149 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r250
+  %r150 = load i32, i32* %r149
+  store i32 %r150, i32* %r147
+  %r152 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r250
+  %r153 = load i32, i32* @cnt
+  store i32 %r153, i32* %r152
   %r154 = load i32, i32* @cnt
   %r155 = add i32 %r154, 1
   store i32 %r155, i32* @cnt
@@ -120,170 +121,184 @@ bb16:
 }
 
 define void @init( ) {
-bb17:
-  %r246 = add i32 0, 0
-  %r247 = add i32 0, 0
-  br label %bb18
+bb3:
+  %r252 = add i32 0, 0
+  %r253 = add i32 0, 0
+  br label %bb_while_5_43_cond
 
-bb18:
-  %r248 = phi i32 [ %r247, %bb17 ], [ %r249, %bb19 ]
-  %r158 = icmp slt i32 %r248, 1005
-  br i1 %r158, label %bb19, label %bb20
+bb_while_5_43_cond:
+  %r254 = phi i32 [ %r253, %bb3 ], [ %r255, %bb_while_5_43_whilestms ]
+  %r158 = icmp slt i32 %r254, 1005
+  br i1 %r158, label %bb_while_5_43_whilestms, label %bb_while_5_43_bre
 
-bb19:
-  %r160 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r248
+bb_while_5_43_whilestms:
+  %r160 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r254
   store i32 -1, i32* %r160
-  %r249 = add i32 %r248, 1
-  br label %bb18
+  %r162 = add i32 %r254, 1
+  %r255 = add i32 %r162, 0
+  br label %bb_while_5_43_cond
 
-bb20:
+bb_while_5_43_bre:
   ret void
 }
 
 define void @clear( ) {
-bb21:
-  %r250 = add i32 0, 0
-  %r251 = add i32 1, 0
-  br label %bb22
+bb4:
+  %r257 = add i32 0, 0
+  %r258 = add i32 1, 0
+  br label %bb_while_5_51_cond
 
-bb22:
-  %r252 = phi i32 [ %r251, %bb21 ], [ %r253, %bb23 ]
+bb_while_5_51_cond:
+  %r259 = phi i32 [ %r258, %bb4 ], [ %r260, %bb_while_5_51_whilestms ]
   %r165 = load i32, i32* @n
-  %r166 = icmp sle i32 %r252, %r165
-  br i1 %r166, label %bb23, label %bb24
+  %r166 = icmp sle i32 %r259, %r165
+  br i1 %r166, label %bb_while_5_51_whilestms, label %bb_while_5_51_bre
 
-bb23:
-  %r168 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r252
+bb_while_5_51_whilestms:
+  %r168 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r259
   store i32 0, i32* %r168
-  %r253 = add i32 %r252, 1
-  br label %bb22
+  %r170 = add i32 %r259, 1
+  %r260 = add i32 %r170, 0
+  br label %bb_while_5_51_cond
 
-bb24:
+bb_while_5_51_bre:
   ret void
 }
 
 define i32 @same( i32 %r171, i32 %r173 ) {
-bb50:
-  %r254 = add i32 0, 0
-  %r255 = add i32 0, 0
-  %r256 = add i32 0, 0
-  %r258 = add i32 %r171, 0
-  %r257 = add i32 0, 0
-  %r259 = add i32 %r173, 0
-  br label %bb25
-
-bb25:
-  %r176 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r258
+bb5:
+  %r265 = add i32 0, 0
+  %r266 = add i32 0, 0
+  %r267 = add i32 0, 0
+  %r268 = add i32 %r171, 0
+  %r269 = add i32 0, 0
+  %r270 = add i32 %r173, 0
+  %r176 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r268
   store i32 1, i32* %r176
-  %r179 = icmp eq i32 %r258, %r259
-  br i1 %r179, label %bb26, label %bb27
+  %r179 = icmp eq i32 %r268, %r270
+  br i1 %r179, label %bb_if_5_59_true, label %bb_if_5_59_false
 
-bb26:
+bb_if_5_59_true:
   ret i32 1
-bb27:
-  br label %bb28
+bb_if_5_59_false:
+  br label %bb_if_5_59_end
 
-bb28:
-  %r182 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r258
-  %r260 = load i32, i32* %r182
-  br label %bb29
+bb_if_5_59_end:
+  %r182 = getelementptr [1005 x i32 ], [1005 x i32 ]* @head, i32 0, i32 %r268
+  %r183 = load i32, i32* %r182
+  %r271 = add i32 %r183, 0
+  br label %bb_while_5_63_cond
 
-bb29:
-  %r261 = phi i32 [ %r260, %bb28 ], [ %r263, %bb34 ]
-  %r185 = icmp ne i32 %r261, -1
-  br i1 %r185, label %bb30, label %bb31
+bb_while_5_63_cond:
+  %r272 = phi i32 [ %r271, %bb_if_5_59_end ], [ %r275, %bb_if_9_65_end ]
+  %r273 = phi i32 [ %r265, %bb_if_5_59_end ], [ %r274, %bb_if_9_65_end ]
+  %r185 = icmp ne i32 %r272, -1
+  br i1 %r185, label %bb_while_5_63_whilestms, label %bb_while_5_63_bre
 
-bb30:
-  %r188 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r261
-  %r262 = load i32, i32* %r188
-  %r191 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r262
+bb_while_5_63_whilestms:
+  %r188 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r272
+  %r189 = load i32, i32* %r188
+  %r274 = add i32 %r189, 0
+  %r191 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r274
   %r192 = load i32, i32* %r191
   %r193 = icmp eq i32 %r192, 0
-  br i1 %r193, label %bb35, label %bb33
+  br i1 %r193, label %bb29_65_next, label %bb_if_9_65_false
 
-bb35:
-  %r196 = call i32 @same(i32 %r262, i32 %r259)
+bb29_65_next:
+  %r196 = call i32 @same(i32 %r274, i32 %r270)
   %r197 = icmp ne i32 %r196, 0
-  br i1 %r197, label %bb32, label %bb33
+  br i1 %r197, label %bb_if_9_65_true, label %bb_if_9_65_false
 
-bb32:
+bb_if_9_65_true:
   ret i32 1
-bb33:
-  br label %bb34
+bb_if_9_65_false:
+  br label %bb_if_9_65_end
 
-bb34:
-  %r199 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r261
-  %r263 = load i32, i32* %r199
-  br label %bb29
+bb_if_9_65_end:
+  %r199 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r272
+  %r200 = load i32, i32* %r199
+  %r275 = add i32 %r200, 0
+  br label %bb_while_5_63_cond
 
-bb31:
+bb_while_5_63_bre:
   ret i32 0
 }
 
 define i32 @main( ) {
-bb36:
+bb6:
   call void @_sysy_starttime(i32 74)
   %r201 = call i32 @quickread()
   store i32 %r201, i32* @n
   %r202 = call i32 @quickread()
   store i32 %r202, i32* @m
   call void @init()
-  %r264 = add i32 0, 0
-  %r267 = add i32 0, 0
-  %r265 = add i32 0, 0
-  %r268 = add i32 0, 0
-  %r266 = add i32 0, 0
-  %r269 = add i32 0, 0
-  br label %bb37
+  %r279 = add i32 0, 0
+  %r280 = add i32 0, 0
+  %r281 = add i32 0, 0
+  %r282 = add i32 0, 0
+  %r283 = add i32 0, 0
+  %r284 = add i32 0, 0
+  br label %bb_while_5_80_cond
 
-bb37:
+bb_while_5_80_cond:
+  %r285 = phi i32 [ %r282, %bb6 ], [ %r295, %bb_if_9_85_end ]
+  %r286 = phi i32 [ %r284, %bb6 ], [ %r296, %bb_if_9_85_end ]
+  %r287 = phi i32 [ %r280, %bb6 ], [ %r289, %bb_if_9_85_end ]
   %r206 = load i32, i32* @m
   %r207 = icmp ne i32 %r206, 0
-  br i1 %r207, label %bb38, label %bb39
+  br i1 %r207, label %bb_while_5_80_whilestms, label %bb_while_5_80_bre
 
-bb38:
-  %r270 = call i32 @getch()
-  br label %bb40
+bb_while_5_80_whilestms:
+  %r208 = call i32 @getch()
+  %r288 = add i32 %r208, 0
+  br label %bb_while_9_82_cond
 
-bb40:
-  %r271 = phi i32 [ %r270, %bb38 ], [ %r276, %bb41 ]
-  %r210 = icmp ne i32 %r271, 81
-  br i1 %r210, label %bb43, label %bb42
+bb_while_9_82_cond:
+  %r289 = phi i32 [ %r288, %bb_while_5_80_whilestms ], [ %r290, %bb_while_9_82_whilestms ]
+  %r210 = icmp ne i32 %r289, 81
+  br i1 %r210, label %bb31_82_next, label %bb_while_9_82_bre
 
-bb43:
-  %r212 = icmp ne i32 %r271, 85
-  br i1 %r212, label %bb41, label %bb42
+bb31_82_next:
+  %r212 = icmp ne i32 %r289, 85
+  br i1 %r212, label %bb_while_9_82_whilestms, label %bb_while_9_82_bre
 
-bb41:
-  %r276 = call i32 @getch()
-  br label %bb40
+bb_while_9_82_whilestms:
+  %r213 = call i32 @getch()
+  %r290 = add i32 %r213, 0
+  br label %bb_while_9_82_cond
 
-bb42:
-  %r215 = icmp eq i32 %r271, 81
-  br i1 %r215, label %bb44, label %bb45
+bb_while_9_82_bre:
+  %r215 = icmp eq i32 %r289, 81
+  br i1 %r215, label %bb_if_9_85_true, label %bb_if_9_85_false
 
-bb44:
-  %r274 = call i32 @quickread()
-  %r275 = call i32 @quickread()
+bb_if_9_85_true:
+  %r216 = call i32 @quickread()
+  %r291 = add i32 %r216, 0
+  %r217 = call i32 @quickread()
+  %r292 = add i32 %r217, 0
   call void @clear()
-  %r220 = call i32 @same(i32 %r274, i32 %r275)
+  %r220 = call i32 @same(i32 %r291, i32 %r292)
   call void @putint(i32 %r220)
   call void @putch(i32 10)
-  br label %bb46
+  br label %bb_if_9_85_end
 
-bb45:
-  %r272 = call i32 @quickread()
-  %r273 = call i32 @quickread()
-  call void @addedge(i32 %r272, i32 %r273)
-  br label %bb46
+bb_if_9_85_false:
+  %r221 = call i32 @quickread()
+  %r293 = add i32 %r221, 0
+  %r222 = call i32 @quickread()
+  %r294 = add i32 %r222, 0
+  call void @addedge(i32 %r293, i32 %r294)
+  br label %bb_if_9_85_end
 
-bb46:
+bb_if_9_85_end:
+  %r295 = phi i32 [ %r291, %bb_if_9_85_true ], [ %r293, %bb_if_9_85_false ]
+  %r296 = phi i32 [ %r292, %bb_if_9_85_true ], [ %r294, %bb_if_9_85_false ]
   %r225 = load i32, i32* @m
   %r226 = sub i32 %r225, 1
   store i32 %r226, i32* @m
-  br label %bb37
+  br label %bb_while_5_80_cond
 
-bb39:
+bb_while_5_80_bre:
   call void @_sysy_stoptime(i32 96)
   ret i32 0
 }
