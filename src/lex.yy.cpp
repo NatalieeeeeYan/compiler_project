@@ -1046,7 +1046,7 @@ YY_RULE_SETUP
 case 49:
 YY_RULE_SETUP
 #line 77 "lexer.lex"
-{ printf("Unknown character!\n"); }
+{ printf("Unknown character! line: %d, col: %d\n", &line, &col); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP

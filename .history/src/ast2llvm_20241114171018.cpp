@@ -13,7 +13,7 @@ static unordered_map<string, StructInfo> structInfoMap;
 static unordered_map<string, Name_name*> globalVarMap;  // 全局变量表
 //static unordered_map<string, Temp_temp*> localVarMap; 
 static list<unordered_map<string, Temp_temp*>> localVarStack;  // 局部变量表栈
-static list<L_stm*> emit_irs;
+static list<L_stm*> emit_irs;   // IR 语句列表
 
 LLVMIR::L_prog* ast2llvm(aA_program p)
 {
@@ -1095,6 +1095,7 @@ void ast2llvmIfStmt(aA_ifStmt a, Temp_label* con_label, Temp_label* bre_label) {
 }
 
 void ast2llvmWhileStmt(aA_whileStmt a) {
+    // 省去 continue 和 break 的处理
     auto test_label = Temp_newlabel();      // 测试条件的标签
     auto true_label = Temp_newlabel();      // 循环体内部的标签
     auto false_label = Temp_newlabel();     // 循环结束的标签

@@ -13,7 +13,7 @@ static unordered_map<string, StructInfo> structInfoMap;
 static unordered_map<string, Name_name*> globalVarMap;  // 全局变量表
 //static unordered_map<string, Temp_temp*> localVarMap; 
 static list<unordered_map<string, Temp_temp*>> localVarStack;  // 局部变量表栈
-static list<L_stm*> emit_irs;
+static list<L_stm*> emit_irs;   // IR 语句列表
 
 LLVMIR::L_prog* ast2llvm(aA_program p)
 {

@@ -74,7 +74,7 @@ int calc(char *s, int len);
 <INITIAL>" "   {col += 1;}
 <INITIAL>"\n" {line++; col = 0;}
 <INITIAL>";"     {yylval.pos = A_Pos(line, col); col += 1; return SEMICOLON;}
-<INITIAL>.	{ printf("Unknown character! line: %d, col: %d\n", &line, &col); }
+<INITIAL>.	{ printf("Unknown character!\n"); }
 
 
 %%

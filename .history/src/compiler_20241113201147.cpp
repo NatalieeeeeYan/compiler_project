@@ -3,6 +3,7 @@
 #include "TeaplAst.h"
 #include "TeaplaAst.h"
 #include "PrintTeaplaAst.h"
+#include "TypeCheck.h"
 #include "y.tab.hpp"
 #include "llvm_ir.h"
 #include "ast2llvm.h"
