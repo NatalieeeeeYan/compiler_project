@@ -421,7 +421,7 @@ void check_VarDecl(std::ostream& out, aA_varDeclStmt vd, string funcName)
     if (!vd)
         return;
     string name;
-    aA_type type = nullptr;     // 初始化为nullptr，未知类型
+    aA_type type = nullptr;     // 初始化为nullptr，表示未知类型
     if (vd->kind == A_varDeclStmtType::A_varDeclKind){
         // decl only
         aA_varDecl vdecl = vd->u.varDecl;
@@ -588,7 +588,7 @@ void check_VarDecl(std::ostream& out, aA_varDeclStmt vd, string funcName)
             }
             
             if (!type) {
-                // 这里暂时将类型设置为一个特殊的未知类型，以便后续的类型检查能够发现这些未定义的变量
+                // 暂时将类型设置为一个特殊的未知类型，以便后续的类型检查能够发现这些未定义的变量
                 type = new aA_type_;
                 type->type = A_dataType::A_unknownTypeKind;
                 if (val->u.arithExpr->u.exprUnit->kind == A_exprUnitType::A_numExprKind) {  // 若右侧为int
@@ -765,7 +765,7 @@ void check_FnDecl(std::ostream& out, aA_fnDecl fd)
         // if not defined
         /* fill code here */
         aA_type type = fd->type;
-        tc_type tc= tc_Type(type, 2);  // 2表示function
+        tc_type tc= tc_Type(type, 2);  // 2: function
         g_token2Type.insert(make_pair(name, tc)); 
         // print_token_maps();
         
@@ -777,7 +777,7 @@ void check_FnDecl(std::ostream& out, aA_fnDecl fd)
                 aA_varDeclScalar vds = var->u.declScalar;
                 string* id = vds->id;
                 if (vds->type->type == 1) { // struct
-                // std::cout<<"type->type:"<<*vds->type->u.structType<<std::endl;
+                // std::cout << "type->type:" << *vds->type->u.structType << std::endl;
                     type = new aA_type_;  
                     type->type = A_dataType::A_structTypeKind;
                     type->u.structType = vds->type->u.structType;
@@ -794,7 +794,7 @@ void check_FnDecl(std::ostream& out, aA_fnDecl fd)
                 string* id = vda->id;
 
                 if (vda->type->type == 1) { // struct
-                // std::cout<<"type->type:"<<*vds->type->u.structType<<std::endl;
+                // std::cout << "type->type:" << *vds->type->u.structType << std::endl;
                     type = new aA_type_;  
                     type->type = A_dataType::A_structTypeKind;
                     type->u.structType = vda->type->u.structType;
@@ -808,10 +808,10 @@ void check_FnDecl(std::ostream& out, aA_fnDecl fd)
             
         }
         vector<aA_varDecl>* vp = new vector<aA_varDecl>(vars);
-        // std::cout<<"name:"<<name<<std::endl;
+        // std::cout << "name:" << name << std::endl;
         func2Param.insert(make_pair(name, vp));
         // printFunctionParameters(func2Param);
-        // std::cout<<"size:"<<func2Param.size()<<std::endl;
+        // std::cout << "size:" << func2Param.size() << std::endl;
 
     }
     return;
