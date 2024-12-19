@@ -39,21 +39,21 @@ bb_while_5_8_bre:
   br label %bb_while_5_14_cond
 
 bb_while_5_14_cond:
-  %r172 = phi i32 [ %r171, %bb_while_5_8_bre ], [ %r175, %bb_while_5_14_whilestms ]
-  %r173 = phi i32 [ %r163, %bb_while_5_8_bre ], [ %r174, %bb_while_5_14_whilestms ]
-  %r118 = icmp sgt i32 %r172, %r169
+  %r172 = phi i32 [ %r163, %bb_while_5_8_bre ], [ %r174, %bb_while_5_14_whilestms ]
+  %r173 = phi i32 [ %r171, %bb_while_5_8_bre ], [ %r175, %bb_while_5_14_whilestms ]
+  %r118 = icmp sgt i32 %r173, %r169
   br i1 %r118, label %bb_while_5_14_whilestms, label %bb_while_5_14_bre
 
 bb_while_5_14_whilestms:
-  %r121 = sub i32 %r172, 1
+  %r121 = sub i32 %r173, 1
   %r174 = add i32 %r121, 0
-  %r123 = getelementptr i32, i32* %r100, i32 %r172
+  %r123 = getelementptr i32, i32* %r100, i32 %r173
   %r125 = getelementptr i32, i32* %r100, i32 %r174
   %r126 = load i32, i32* %r125
   store i32 %r126, i32* %r123
   %r128 = getelementptr i32, i32* %r100, i32 %r169
   store i32 %r165, i32* %r128
-  %r131 = sub i32 %r172, 1
+  %r131 = sub i32 %r173, 1
   %r175 = add i32 %r131, 0
   br label %bb_while_5_14_cond
 

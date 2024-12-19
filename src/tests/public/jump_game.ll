@@ -60,9 +60,9 @@ bb_while_5_13_bre:
   br label %bb_while_5_20_cond
 
 bb_while_5_20_cond:
-  %r192 = phi i32 [ %r191, %bb_while_5_13_bre ], [ %r202, %bb_while_9_29_bre ]
-  %r193 = phi i32 [ %r182, %bb_while_5_13_bre ], [ %r198, %bb_while_9_29_bre ]
-  %r194 = phi i32 [ %r190, %bb_while_5_13_bre ], [ %r199, %bb_while_9_29_bre ]
+  %r192 = phi i32 [ %r191, %bb_while_5_13_bre ], [ %r201, %bb_while_9_29_bre ]
+  %r193 = phi i32 [ %r182, %bb_while_5_13_bre ], [ %r197, %bb_while_9_29_bre ]
+  %r194 = phi i32 [ %r190, %bb_while_5_13_bre ], [ %r198, %bb_while_9_29_bre ]
   %r128 = icmp sgt i32 %r192, -1
   br i1 %r128, label %bb_while_5_20_whilestms, label %bb_while_5_20_bre
 
@@ -83,23 +83,23 @@ bb_if_9_22_true:
 bb_if_9_22_false:
   %r142 = sub i32 %r186, 1
   %r144 = sub i32 %r142, %r192
-  %r196 = add i32 %r144, 0
+  %r202 = add i32 %r144, 0
   br label %bb_if_9_22_end
 
 bb_if_9_22_end:
-  %r197 = phi i32 [ %r195, %bb_if_9_22_true ], [ %r196, %bb_if_9_22_false ]
+  %r196 = phi i32 [ %r195, %bb_if_9_22_true ], [ %r202, %bb_if_9_22_false ]
   br label %bb_while_9_29_cond
 
 bb_while_9_29_cond:
-  %r198 = phi i32 [ %r197, %bb_if_9_22_end ], [ %r201, %bb_if_13_31_end ]
-  %r199 = phi i32 [ %r194, %bb_if_9_22_end ], [ %r200, %bb_if_13_31_end ]
-  %r146 = icmp sgt i32 %r198, -1
+  %r197 = phi i32 [ %r196, %bb_if_9_22_end ], [ %r200, %bb_if_13_31_end ]
+  %r198 = phi i32 [ %r194, %bb_if_9_22_end ], [ %r199, %bb_if_13_31_end ]
+  %r146 = icmp sgt i32 %r197, -1
   br i1 %r146, label %bb_while_9_29_whilestms, label %bb_while_9_29_bre
 
 bb_while_9_29_whilestms:
-  %r149 = add i32 %r192, %r198
-  %r200 = add i32 %r149, 0
-  %r151 = getelementptr [10 x i32 ], [10 x i32 ]* %r110, i32 0, i32 %r200
+  %r149 = add i32 %r192, %r197
+  %r199 = add i32 %r149, 0
+  %r151 = getelementptr [10 x i32 ], [10 x i32 ]* %r110, i32 0, i32 %r199
   %r152 = load i32, i32* %r151
   %r153 = icmp ne i32 %r152, 0
   br i1 %r153, label %bb_if_13_31_true, label %bb_if_13_31_false
@@ -113,13 +113,13 @@ bb_if_13_31_false:
   br label %bb_if_13_31_end
 
 bb_if_13_31_end:
-  %r157 = sub i32 %r198, 1
-  %r201 = add i32 %r157, 0
+  %r157 = sub i32 %r197, 1
+  %r200 = add i32 %r157, 0
   br label %bb_while_9_29_cond
 
 bb_while_9_29_bre:
   %r159 = sub i32 %r192, 1
-  %r202 = add i32 %r159, 0
+  %r201 = add i32 %r159, 0
   br label %bb_while_5_20_cond
 
 bb_while_5_20_bre:

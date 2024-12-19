@@ -98,20 +98,20 @@ bb3:
   br label %bb_while_5_38_cond
 
 bb_while_5_38_cond:
-  %r193 = phi i32 [ %r190, %bb3 ], [ %r195, %bb_while_5_38_whilestms ]
-  %r194 = phi i32 [ %r192, %bb3 ], [ %r196, %bb_while_5_38_whilestms ]
-  %r140 = icmp sgt i32 %r193, 0
+  %r193 = phi i32 [ %r192, %bb3 ], [ %r196, %bb_while_5_38_whilestms ]
+  %r194 = phi i32 [ %r190, %bb3 ], [ %r195, %bb_while_5_38_whilestms ]
+  %r140 = icmp sgt i32 %r194, 0
   br i1 %r140, label %bb_while_5_38_whilestms, label %bb_while_5_38_bre
 
 bb_while_5_38_whilestms:
-  %r142 = getelementptr [16 x i32 ], [16 x i32 ]* %r137, i32 0, i32 %r194
-  %r144 = call i32 @mod(i32 %r193, i32 10)
+  %r142 = getelementptr [16 x i32 ], [16 x i32 ]* %r137, i32 0, i32 %r193
+  %r144 = call i32 @mod(i32 %r194, i32 10)
   %r145 = load i32, i32* @ascii_0
   %r146 = add i32 %r144, %r145
   store i32 %r146, i32* %r142
-  %r148 = sdiv i32 %r193, 10
+  %r148 = sdiv i32 %r194, 10
   %r195 = add i32 %r148, 0
-  %r150 = add i32 %r194, 1
+  %r150 = add i32 %r193, 1
   %r196 = add i32 %r150, 0
   br label %bb_while_5_38_cond
 
@@ -119,7 +119,7 @@ bb_while_5_38_bre:
   br label %bb_while_5_43_cond
 
 bb_while_5_43_cond:
-  %r197 = phi i32 [ %r194, %bb_while_5_38_bre ], [ %r198, %bb_while_5_43_whilestms ]
+  %r197 = phi i32 [ %r193, %bb_while_5_38_bre ], [ %r198, %bb_while_5_43_whilestms ]
   %r152 = icmp sgt i32 %r197, 0
   br i1 %r152, label %bb_while_5_43_whilestms, label %bb_while_5_43_bre
 

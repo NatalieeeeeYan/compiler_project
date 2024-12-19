@@ -28,18 +28,18 @@ bb2:
   br label %bb_while_5_12_cond
 
 bb_while_5_12_cond:
-  %r160 = phi i32 [ %r156, %bb2 ], [ %r162, %bb_while_5_12_whilestms ]
-  %r161 = phi i32 [ %r159, %bb2 ], [ %r163, %bb_while_5_12_whilestms ]
-  %r117 = icmp slt i32 %r161, 4
+  %r160 = phi i32 [ %r159, %bb2 ], [ %r163, %bb_while_5_12_whilestms ]
+  %r161 = phi i32 [ %r156, %bb2 ], [ %r162, %bb_while_5_12_whilestms ]
+  %r117 = icmp slt i32 %r160, 4
   br i1 %r117, label %bb_while_5_12_whilestms, label %bb_while_5_12_bre
 
 bb_while_5_12_whilestms:
-  %r119 = getelementptr [4 x i32 ], [4 x i32 ]* %r113, i32 0, i32 %r161
-  %r121 = call i32 @mod(i32 %r160, i32 10)
+  %r119 = getelementptr [4 x i32 ], [4 x i32 ]* %r113, i32 0, i32 %r160
+  %r121 = call i32 @mod(i32 %r161, i32 10)
   store i32 %r121, i32* %r119
-  %r123 = sdiv i32 %r160, 10
+  %r123 = sdiv i32 %r161, 10
   %r162 = add i32 %r123, 0
-  %r125 = add i32 %r161, 1
+  %r125 = add i32 %r160, 1
   %r163 = add i32 %r125, 0
   br label %bb_while_5_12_cond
 
@@ -88,14 +88,14 @@ bb_if_5_35_true:
   br label %bb_if_5_35_end
 
 bb_if_5_35_false:
-  %r173 = add i32 0, 0
-  call void @putint(i32 %r173)
+  %r175 = add i32 0, 0
+  call void @putint(i32 %r175)
   br label %bb_if_5_35_end
 
 bb_if_5_35_end:
-  %r174 = phi i32 [ %r172, %bb_if_5_35_true ], [ %r173, %bb_if_5_35_false ]
-  %r175 = add i32 10, 0
-  call void @putch(i32 %r175)
+  %r173 = phi i32 [ %r172, %bb_if_5_35_true ], [ %r175, %bb_if_5_35_false ]
+  %r174 = add i32 10, 0
+  call void @putch(i32 %r174)
   call void @_sysy_stoptime(i32 47)
   ret i32 0
 }

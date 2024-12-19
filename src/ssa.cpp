@@ -67,7 +67,7 @@ static bool is_mem_variable(L_stm* stm) {
     return stm->type == L_StmKind::T_ALLOCA && stm->u.ALLOCA->dst->kind == OperandKind::TEMP && stm->u.ALLOCA->dst->u.TEMP->type == TempType::INT_PTR && stm->u.ALLOCA->dst->u.TEMP->len == 0;
 }
 
-// 保证相同的AS_operand,地址一样 。常量除外
+// 保证相同的AS_operand地址一样，常量除外
 void combine_addr(LLVMIR::L_func* fun) {
     unordered_map<Temp_temp*, unordered_set<AS_operand**>> temp_set;
     unordered_map<Name_name*, unordered_set<AS_operand**>> name_set;
@@ -136,7 +136,8 @@ void mem2reg(LLVMIR::L_func* fun) {
                 case L_StmKind::T_LOAD:{
                     AS_operand* dst = stm->u.LOAD->dst;
                     AS_operand* ptr = stm->u.LOAD->ptr;
-                    if(ptr->kind==OperandKind::TEMP && ptr->u.TEMP->type==TempType::INT_PTR && ptr->u.TEMP->len==0 && (temp2ASoper.find(ptr->u.TEMP)!=temp2ASoper.end())){
+                    if(ptr->kind==OperandKind::TEMP && ptr->u.TEMP->type == TempType::INT_PTR && ptr->u.TEMP->len == 0 
+                       && (temp2ASoper.find(ptr->u.TEMP) != temp2ASoper.end())){
                         if(dst->kind==OperandKind::TEMP){
                             loadTemp2ASOper[dst->u.TEMP] = temp2ASoper[ptr->u.TEMP];
                             auto old_it = it;
@@ -502,17 +503,4 @@ void Rename(GRAPH::Graph<LLVMIR::L_block*>& bg) {
         stack[pair.second->u.TEMP].push(pair.second->u.TEMP);
     }
     Rename_temp(bg, bg.mynodes[0], stack);
-}
-
-template <typename T>
-std::unordered_set<T> make_intersection(std::unordered_set<T> &tl1, std::unordered_set<T> &tl2) {
-    unordered_set<T> intersection = unordered_set<T>();
-    for (auto &it : tl1)
-    {
-        if (tl2.find(it) != tl2.end())
-        {
-            intersection.emplace(it);
-        }
-    }
-    return intersection;
 }

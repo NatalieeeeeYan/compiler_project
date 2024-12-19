@@ -51,14 +51,14 @@ bb_while_5_18_bre:
   br label %bb_while_5_26_cond
 
 bb_while_5_26_cond:
-  %r251 = phi i32 [ %r250, %bb_while_5_18_bre ], [ %r270, %bb_while_9_39_bre ]
-  %r252 = phi i32 [ %r243, %bb_while_5_18_bre ], [ %r259, %bb_while_9_39_bre ]
-  %r253 = phi i32 [ %r242, %bb_while_5_18_bre ], [ %r268, %bb_while_9_39_bre ]
+  %r251 = phi i32 [ %r242, %bb_while_5_18_bre ], [ %r268, %bb_while_9_39_bre ]
+  %r252 = phi i32 [ %r250, %bb_while_5_18_bre ], [ %r270, %bb_while_9_39_bre ]
+  %r253 = phi i32 [ %r243, %bb_while_5_18_bre ], [ %r259, %bb_while_9_39_bre ]
   %r254 = phi i32 [ %r245, %bb_while_5_18_bre ], [ %r260, %bb_while_9_39_bre ]
   %r255 = phi i32 [ %r244, %bb_while_5_18_bre ], [ %r261, %bb_while_9_39_bre ]
   %r117 = load i32, i32* @n
   %r118 = sub i32 %r117, 1
-  %r119 = icmp sle i32 %r251, %r118
+  %r119 = icmp sle i32 %r252, %r118
   br i1 %r119, label %bb_while_5_26_whilestms, label %bb_while_5_26_bre
 
 bb_while_5_26_whilestms:
@@ -166,7 +166,7 @@ bb_if_13_40_end:
   br label %bb_while_9_39_cond
 
 bb_while_9_39_bre:
-  %r185 = add i32 %r251, 1
+  %r185 = add i32 %r252, 1
   %r270 = add i32 %r185, 0
   br label %bb_while_5_26_cond
 
@@ -189,10 +189,10 @@ bb2:
   br label %bb_while_5_59_cond
 
 bb_while_5_59_cond:
-  %r280 = phi i32 [ %r279, %bb2 ], [ %r285, %bb_while_9_61_bre ]
-  %r281 = phi i32 [ %r277, %bb2 ], [ %r283, %bb_while_9_61_bre ]
+  %r280 = phi i32 [ %r277, %bb2 ], [ %r283, %bb_while_9_61_bre ]
+  %r281 = phi i32 [ %r279, %bb2 ], [ %r285, %bb_while_9_61_bre ]
   %r190 = load i32, i32* @n
-  %r191 = icmp sle i32 %r280, %r190
+  %r191 = icmp sle i32 %r281, %r190
   br i1 %r191, label %bb_while_5_59_whilestms, label %bb_while_5_59_bre
 
 bb_while_5_59_whilestms:
@@ -206,18 +206,18 @@ bb_while_9_61_cond:
   br i1 %r195, label %bb_while_9_61_whilestms, label %bb_while_9_61_bre
 
 bb_while_9_61_whilestms:
-  %r198 = icmp eq i32 %r280, %r283
+  %r198 = icmp eq i32 %r281, %r283
   br i1 %r198, label %bb_if_13_62_true, label %bb_if_13_62_false
 
 bb_if_13_62_true:
-  %r200 = getelementptr [16 x %array2D ], [16 x %array2D ]* @e, i32 0, i32 %r280
+  %r200 = getelementptr [16 x %array2D ], [16 x %array2D ]* @e, i32 0, i32 %r281
   %r201 = getelementptr %array2D, %array2D* %r200, i32 0, i32 0
   %r203 = getelementptr [16 x i32 ], [16 x i32 ]* %r201, i32 0, i32 %r283
   store i32 0, i32* %r203
   br label %bb_if_13_62_end
 
 bb_if_13_62_false:
-  %r205 = getelementptr [16 x %array2D ], [16 x %array2D ]* @e, i32 0, i32 %r280
+  %r205 = getelementptr [16 x %array2D ], [16 x %array2D ]* @e, i32 0, i32 %r281
   %r206 = getelementptr %array2D, %array2D* %r205, i32 0, i32 0
   %r208 = getelementptr [16 x i32 ], [16 x i32 ]* %r206, i32 0, i32 %r283
   %r209 = load i32, i32* @INF
@@ -230,7 +230,7 @@ bb_if_13_62_end:
   br label %bb_while_9_61_cond
 
 bb_while_9_61_bre:
-  %r213 = add i32 %r280, 1
+  %r213 = add i32 %r281, 1
   %r285 = add i32 %r213, 0
   br label %bb_while_5_59_cond
 
@@ -239,11 +239,11 @@ bb_while_5_59_bre:
   br label %bb_while_5_76_cond
 
 bb_while_5_76_cond:
-  %r287 = phi i32 [ %r286, %bb_while_5_59_bre ], [ %r292, %bb_while_5_76_whilestms ]
-  %r288 = phi i32 [ %r276, %bb_while_5_59_bre ], [ %r290, %bb_while_5_76_whilestms ]
-  %r289 = phi i32 [ %r275, %bb_while_5_59_bre ], [ %r291, %bb_while_5_76_whilestms ]
+  %r287 = phi i32 [ %r276, %bb_while_5_59_bre ], [ %r290, %bb_while_5_76_whilestms ]
+  %r288 = phi i32 [ %r275, %bb_while_5_59_bre ], [ %r291, %bb_while_5_76_whilestms ]
+  %r289 = phi i32 [ %r286, %bb_while_5_59_bre ], [ %r292, %bb_while_5_76_whilestms ]
   %r215 = load i32, i32* @m
-  %r216 = icmp sle i32 %r287, %r215
+  %r216 = icmp sle i32 %r289, %r215
   br i1 %r216, label %bb_while_5_76_whilestms, label %bb_while_5_76_bre
 
 bb_while_5_76_whilestms:
@@ -256,7 +256,7 @@ bb_while_5_76_whilestms:
   %r225 = getelementptr [16 x i32 ], [16 x i32 ]* %r223, i32 0, i32 %r291
   %r226 = call i32 @getint()
   store i32 %r226, i32* %r225
-  %r228 = add i32 %r287, 1
+  %r228 = add i32 %r289, 1
   %r292 = add i32 %r228, 0
   br label %bb_while_5_76_cond
 

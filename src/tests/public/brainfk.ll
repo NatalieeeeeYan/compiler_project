@@ -48,8 +48,8 @@ bb2:
 
 bb_while_3_23_cond:
   %r197 = phi i32 [ %r196, %bb2 ], [ %r214, %bb_if_5_43_end ]
-  %r198 = phi i32 [ %r193, %bb2 ], [ %r212, %bb_if_5_43_end ]
-  %r199 = phi i32 [ %r194, %bb2 ], [ %r213, %bb_if_5_43_end ]
+  %r198 = phi i32 [ %r194, %bb2 ], [ %r212, %bb_if_5_43_end ]
+  %r199 = phi i32 [ %r193, %bb2 ], [ %r213, %bb_if_5_43_end ]
   %r118 = getelementptr i32, i32* %r113, i32 %r197
   %r119 = load i32, i32* %r118
   %r120 = icmp ne i32 %r119, 0
@@ -163,9 +163,9 @@ bb_if_5_43_true:
 
 bb_while_7_45_cond:
   %r202 = phi i32 [ %r197, %bb_if_5_43_true ], [ %r205, %bb_if_9_51_end ]
-  %r203 = phi i32 [ %r200, %bb_if_5_43_true ], [ %r206, %bb_if_9_51_end ]
-  %r204 = phi i32 [ %r201, %bb_if_5_43_true ], [ %r210, %bb_if_9_51_end ]
-  %r165 = icmp sgt i32 %r204, 0
+  %r203 = phi i32 [ %r201, %bb_if_5_43_true ], [ %r210, %bb_if_9_51_end ]
+  %r204 = phi i32 [ %r200, %bb_if_5_43_true ], [ %r206, %bb_if_9_51_end ]
+  %r165 = icmp sgt i32 %r203, 0
   br i1 %r165, label %bb_while_7_45_whilestms, label %bb_while_7_45_bre
 
 bb_while_7_45_whilestms:
@@ -178,7 +178,7 @@ bb_while_7_45_whilestms:
   br i1 %r172, label %bb_if_9_48_true, label %bb_if_9_48_false
 
 bb_if_9_48_true:
-  %r174 = sub i32 %r204, 1
+  %r174 = sub i32 %r203, 1
   %r207 = add i32 %r174, 0
   br label %bb_if_9_48_end
 
@@ -186,7 +186,7 @@ bb_if_9_48_false:
   br label %bb_if_9_48_end
 
 bb_if_9_48_end:
-  %r208 = phi i32 [ %r207, %bb_if_9_48_true ], [ %r204, %bb_if_9_48_false ]
+  %r208 = phi i32 [ %r207, %bb_if_9_48_true ], [ %r203, %bb_if_9_48_false ]
   %r176 = icmp eq i32 %r206, 93
   br i1 %r176, label %bb_if_9_51_true, label %bb_if_9_51_false
 
@@ -210,8 +210,8 @@ bb_if_5_43_false:
 
 bb_if_5_43_end:
   %r211 = phi i32 [ %r202, %bb_while_7_45_bre ], [ %r197, %bb_if_5_43_false ]
-  %r212 = phi i32 [ %r203, %bb_while_7_45_bre ], [ %r200, %bb_if_5_43_false ]
-  %r213 = phi i32 [ %r204, %bb_while_7_45_bre ], [ %r199, %bb_if_5_43_false ]
+  %r212 = phi i32 [ %r203, %bb_while_7_45_bre ], [ %r198, %bb_if_5_43_false ]
+  %r213 = phi i32 [ %r204, %bb_while_7_45_bre ], [ %r200, %bb_if_5_43_false ]
   %r180 = add i32 %r211, 1
   %r214 = add i32 %r180, 0
   br label %bb_while_3_23_cond

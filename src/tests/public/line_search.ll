@@ -51,43 +51,43 @@ bb_while_5_9_bre:
   br label %bb_while_5_29_cond
 
 bb_while_5_29_cond:
-  %r172 = phi i32 [ %r169, %bb_while_5_9_bre ], [ %r177, %bb_if_9_31_end ]
-  %r173 = phi i32 [ %r171, %bb_while_5_9_bre ], [ %r178, %bb_if_9_31_end ]
-  %r174 = phi i32 [ %r170, %bb_while_5_9_bre ], [ %r179, %bb_if_9_31_end ]
-  %r126 = icmp slt i32 %r174, 10
+  %r172 = phi i32 [ %r170, %bb_while_5_9_bre ], [ %r179, %bb_if_9_31_end ]
+  %r173 = phi i32 [ %r169, %bb_while_5_9_bre ], [ %r177, %bb_if_9_31_end ]
+  %r174 = phi i32 [ %r171, %bb_while_5_9_bre ], [ %r178, %bb_if_9_31_end ]
+  %r126 = icmp slt i32 %r172, 10
   br i1 %r126, label %bb22_29_next, label %bb_while_5_29_bre
 
 bb22_29_next:
-  %r128 = icmp eq i32 %r172, 0
+  %r128 = icmp eq i32 %r173, 0
   br i1 %r128, label %bb_while_5_29_whilestms, label %bb_while_5_29_bre
 
 bb_while_5_29_whilestms:
-  %r130 = getelementptr [10 x i32 ], [10 x i32 ]* %r102, i32 0, i32 %r174
+  %r130 = getelementptr [10 x i32 ], [10 x i32 ]* %r102, i32 0, i32 %r172
   %r131 = load i32, i32* %r130
   %r133 = icmp eq i32 %r131, %r165
   br i1 %r133, label %bb_if_9_31_true, label %bb_if_9_31_false
 
 bb_if_9_31_true:
   %r175 = add i32 1, 0
-  %r176 = add i32 %r174, 0
+  %r176 = add i32 %r172, 0
   br label %bb_if_9_31_end
 
 bb_if_9_31_false:
   br label %bb_if_9_31_end
 
 bb_if_9_31_end:
-  %r177 = phi i32 [ %r175, %bb_if_9_31_true ], [ %r172, %bb_if_9_31_false ]
-  %r178 = phi i32 [ %r176, %bb_if_9_31_true ], [ %r173, %bb_if_9_31_false ]
-  %r136 = add i32 %r174, 1
+  %r177 = phi i32 [ %r175, %bb_if_9_31_true ], [ %r173, %bb_if_9_31_false ]
+  %r178 = phi i32 [ %r176, %bb_if_9_31_true ], [ %r174, %bb_if_9_31_false ]
+  %r136 = add i32 %r172, 1
   %r179 = add i32 %r136, 0
   br label %bb_while_5_29_cond
 
 bb_while_5_29_bre:
-  %r138 = icmp eq i32 %r172, 1
+  %r138 = icmp eq i32 %r173, 1
   br i1 %r138, label %bb_if_5_40_true, label %bb_if_5_40_false
 
 bb_if_5_40_true:
-  call void @putint(i32 %r173)
+  call void @putint(i32 %r174)
   br label %bb_if_5_40_end
 
 bb_if_5_40_false:

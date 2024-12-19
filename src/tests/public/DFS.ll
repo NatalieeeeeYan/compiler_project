@@ -190,13 +190,13 @@ bb_if_5_59_end:
   br label %bb_while_5_63_cond
 
 bb_while_5_63_cond:
-  %r272 = phi i32 [ %r271, %bb_if_5_59_end ], [ %r275, %bb_if_9_65_end ]
-  %r273 = phi i32 [ %r265, %bb_if_5_59_end ], [ %r274, %bb_if_9_65_end ]
-  %r185 = icmp ne i32 %r272, -1
+  %r272 = phi i32 [ %r265, %bb_if_5_59_end ], [ %r274, %bb_if_9_65_end ]
+  %r273 = phi i32 [ %r271, %bb_if_5_59_end ], [ %r275, %bb_if_9_65_end ]
+  %r185 = icmp ne i32 %r273, -1
   br i1 %r185, label %bb_while_5_63_whilestms, label %bb_while_5_63_bre
 
 bb_while_5_63_whilestms:
-  %r188 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r272
+  %r188 = getelementptr [5005 x i32 ], [5005 x i32 ]* @to, i32 0, i32 %r273
   %r189 = load i32, i32* %r188
   %r274 = add i32 %r189, 0
   %r191 = getelementptr [1005 x i32 ], [1005 x i32 ]* @vis, i32 0, i32 %r274
@@ -215,7 +215,7 @@ bb_if_9_65_false:
   br label %bb_if_9_65_end
 
 bb_if_9_65_end:
-  %r199 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r272
+  %r199 = getelementptr [5005 x i32 ], [5005 x i32 ]* @next, i32 0, i32 %r273
   %r200 = load i32, i32* %r199
   %r275 = add i32 %r200, 0
   br label %bb_while_5_63_cond
@@ -241,8 +241,8 @@ bb6:
   br label %bb_while_5_80_cond
 
 bb_while_5_80_cond:
-  %r285 = phi i32 [ %r282, %bb6 ], [ %r295, %bb_if_9_85_end ]
-  %r286 = phi i32 [ %r284, %bb6 ], [ %r296, %bb_if_9_85_end ]
+  %r285 = phi i32 [ %r282, %bb6 ], [ %r293, %bb_if_9_85_end ]
+  %r286 = phi i32 [ %r284, %bb6 ], [ %r294, %bb_if_9_85_end ]
   %r287 = phi i32 [ %r280, %bb6 ], [ %r289, %bb_if_9_85_end ]
   %r206 = load i32, i32* @m
   %r207 = icmp ne i32 %r206, 0
@@ -284,15 +284,15 @@ bb_if_9_85_true:
 
 bb_if_9_85_false:
   %r221 = call i32 @quickread()
-  %r293 = add i32 %r221, 0
+  %r295 = add i32 %r221, 0
   %r222 = call i32 @quickread()
-  %r294 = add i32 %r222, 0
-  call void @addedge(i32 %r293, i32 %r294)
+  %r296 = add i32 %r222, 0
+  call void @addedge(i32 %r295, i32 %r296)
   br label %bb_if_9_85_end
 
 bb_if_9_85_end:
-  %r295 = phi i32 [ %r291, %bb_if_9_85_true ], [ %r293, %bb_if_9_85_false ]
-  %r296 = phi i32 [ %r292, %bb_if_9_85_true ], [ %r294, %bb_if_9_85_false ]
+  %r293 = phi i32 [ %r291, %bb_if_9_85_true ], [ %r295, %bb_if_9_85_false ]
+  %r294 = phi i32 [ %r292, %bb_if_9_85_true ], [ %r296, %bb_if_9_85_false ]
   %r225 = load i32, i32* @m
   %r226 = sub i32 %r225, 1
   store i32 %r226, i32* @m

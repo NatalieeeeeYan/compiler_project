@@ -337,8 +337,8 @@ bb_if_9_150_end:
   br label %bb_while_9_156_cond
 
 bb_while_9_156_cond:
-  %r372 = phi i32 [ %r366, %bb_if_9_150_end ], [ %r377, %bb_if_17_170_end ]
-  %r373 = phi i32 [ %r365, %bb_if_9_150_end ], [ %r378, %bb_if_17_170_end ]
+  %r372 = phi i32 [ %r365, %bb_if_9_150_end ], [ %r377, %bb_if_17_170_end ]
+  %r373 = phi i32 [ %r366, %bb_if_9_150_end ], [ %r378, %bb_if_17_170_end ]
   %r374 = phi i32 [ %r364, %bb_if_9_150_end ], [ %r379, %bb_if_17_170_end ]
   %r375 = phi i32 [ %r367, %bb_if_9_150_end ], [ %r376, %bb_if_17_170_end ]
   %r244 = load i32, i32* @cur_token
@@ -364,8 +364,8 @@ bb_if_9_159_end:
   br label %bb_while_17_162_cond
 
 bb_while_17_162_cond:
-  %r377 = phi i32 [ %r372, %bb_if_9_159_end ], [ %r380, %bb_while_17_162_whilestms ]
-  %r378 = phi i32 [ %r373, %bb_if_9_159_end ], [ %r381, %bb_while_17_162_whilestms ]
+  %r377 = phi i32 [ %r372, %bb_if_9_159_end ], [ %r381, %bb_while_17_162_whilestms ]
+  %r378 = phi i32 [ %r373, %bb_if_9_159_end ], [ %r380, %bb_while_17_162_whilestms ]
   %r379 = phi i32 [ %r374, %bb_if_9_159_end ], [ %r382, %bb_while_17_162_whilestms ]
   %r253 = getelementptr [256 x i32 ], [256 x i32 ]* %r227, i32 0, i32 0
   %r254 = call i32 @stack_size(i32* %r253)
